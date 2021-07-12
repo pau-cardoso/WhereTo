@@ -69,3 +69,25 @@ This app lets backpack travelers create a social media where they can share reco
 6. Map View
     - User can see the map
     - User can see their route for their destination
+
+### 3. Navigation
+
+**Tab Navigation** (Tab to Screen)
+
+* Map view (with pin points of recommendations by users)
+* Stream view of recommendations posted
+* Profile
+
+**Flow Navigation** (Screen to Screen)
+
+* Login screen
+   * Signup screen
+   * Map screen
+* Signup screen
+   * Map screen
+* Map screen
+    * Detail view of recommendations
+* Stream screen
+    * Detail view of recommendations
+* Creation Screen
+    * Map screen (after you finish posting the recommendation)
