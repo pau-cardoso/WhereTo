@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.MapFragment">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbMap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/new_recommendation"
+            android:textColor="@color/white"
+            tools:layout_editor_absoluteX="29dp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/tbMap"
+        android:layout_marginTop="0dp"
         android:text="Hello I'm map" />
 
-</FrameLayout>
+</RelativeLayout>

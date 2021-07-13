@@ -13,12 +13,14 @@
         android:id="@+id/navigation_recommendations"
         android:icon="@drawable/ic_baseline_format_list_bulleted_24"
         android:title="@string/recommendations"
-        android:iconTint="@color/black"/>
+        android:iconTint="@color/black"
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_baseline_account_circle_24"
         android:title="@string/account"
-        android:iconTint="@color/black"/>
+        android:iconTint="@color/black"
+        app:showAsAction="always"/>
 
 </menu>
