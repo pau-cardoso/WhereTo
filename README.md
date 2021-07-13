@@ -91,3 +91,20 @@ This app lets backpack travelers create a social media where they can share reco
     * Detail view of recommendations
 * Creation Screen
     * Map screen (after you finish posting the recommendation)
+
+## Wireframes
+
+| Login | Signup | Map View |
+| -------- | -------- | -------- |
+| <img src="/Wireframes/Login.jpeg" width=300>  | <img src="/Wireframes/Signup.jpeg" width=300> | <img src="/Wireframes/MapView.jpeg" width=300> |
+
+| Stream View | Profile | New recommendation |
+| -------- | -------- | -------- |
+| <img src="/Wireframes/StreamView.jpeg" width=300> | <img src="/Wireframes/Profile.jpeg" width=300>  | <img src="/Wireframes/NewRecommendation.jpeg" width=300> |
+
+| Detail View | 
+| -------- | 
+| <img src="/Wireframes/DetailViewRecommendation.jpeg" width=300> 
+
+
+
