@@ -17,6 +17,8 @@ import com.parse.SignUpCallback;
 public class SignupActivity extends AppCompatActivity {
 
     public static final String TAG = "SignupActivity";
+    public static final int USERNAME_TAKEN = 202;
+    public static final int USER_EMAIL_TAKEN = 203;
 
     EditText etUsernameS;
     EditText etPasswordS;
@@ -54,10 +56,17 @@ public class SignupActivity extends AppCompatActivity {
                         if (e == null) {
                             goFeedActivity();
                         } else {
-                            // Sign up didn't succeed. Look at the ParseException
-                            // to figure out what went wrong
-                            Log.e("TAG", "Signup failed", e);
-                            Toast.makeText(SignupActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                            // Sign up didn't succeed
+                            Log.e("TAG", "Signup failed. Code: " + String.valueOf(e.getCode()), e); // Error message
+                            if (e.getCode() == USERNAME_TAKEN) { // When the username is already taken in the database
+                                Toast.makeText(SignupActivity.this, "Username is already taken", Toast.LENGTH_SHORT).show();
+                            }
+                            else if (e.getCode() == USER_EMAIL_TAKEN) { // When the email is already taken in the database
+                                Toast.makeText(SignupActivity.this, "Email is already taken", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(SignupActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 });
