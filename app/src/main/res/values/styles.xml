@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="RatingBarPriceSmall" parent="android:Widget.DeviceDefault.Light.RatingBar.Indicator">
+        <item name="android:progressDrawable">@drawable/rating_bar_money</item>
+        <item name="android:minHeight">36dp</item>
+        <item name="android:maxHeight">36dp</item>
+    </style>
+</resources>

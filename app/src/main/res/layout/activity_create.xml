@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,7 +7,7 @@
     tools:context=".CreateActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/tbCreate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
@@ -24,11 +24,112 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/new_recommendation"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="29dp"
-            android:textColor="@color/white"/>
+            tools:layout_editor_absoluteX="29dp" />
 
     </androidx.appcompat.widget.Toolbar>
 
+    <!-- TODO app:srcCompat=""
+    TODO android:contentDescription="Logo WhereTo" -->
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <EditText
+        android:id="@+id/etPlace"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/tbCreate"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/edit_text_border"
+        android:ems="10"
+        android:hint="Place"
+        android:inputType="textPersonName"
+        android:paddingStart="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etReview"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/etPlace"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edit_text_border"
+        android:ems="10"
+        android:hint="Review"
+        android:inputType="textImeMultiLine"
+        android:paddingStart="10dp"
+        android:singleLine="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RatingBar
+        android:id="@+id/rbStars"
+        style="@android:style/Widget.Material.Light.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etReview"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="49dp" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etReview"
+        android:layout_toEndOf="@+id/rbStars"
+        android:layout_marginTop="35dp"
+        android:layout_margin="50dp"
+        android:numStars="3"
+        style="@style/Widget.AppCompat.RatingBar.Small"/>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rbStars"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="123dp"
+        android:layout_marginTop="52dp">
+
+        <!-- Chips can be declared here, or added dynamically. -->
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipEat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Eat" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipStay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stay" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipVisit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Visit" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <Button
+        android:id="@+id/btnSignup"
+        android:layout_width="300dp"
+        android:layout_height="55dp"
+        android:layout_below="@+id/chipGroup"
+        android:layout_alignParentBottom="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:backgroundTint="#0095f6"
+        android:text="Sign Up" />
+
+</RelativeLayout>
