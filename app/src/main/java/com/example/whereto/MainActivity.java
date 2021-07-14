@@ -36,16 +36,13 @@ public class MainActivity extends AppCompatActivity {
                         Fragment fragment;
                         switch (item.getItemId()) {
                             case R.id.navigation_map:
-                                Toast.makeText(MainActivity.this, "Home!", Toast.LENGTH_SHORT).show();
                                 fragment = new MapFragment();
                                 break;
                             case R.id.navigation_recommendations:
-                                Toast.makeText(MainActivity.this, "New post!", Toast.LENGTH_SHORT).show();
                                 fragment = new RecommendationsFragment();
                                 break;
                             case R.id.navigation_profile:
                             default:
-                                Toast.makeText(MainActivity.this, "Profile!", Toast.LENGTH_SHORT).show();
                                 fragment = new ProfileFragment();
                                 break;
                         }
