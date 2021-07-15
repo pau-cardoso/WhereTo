@@ -61,8 +61,8 @@ public class SignupActivity extends AppCompatActivity {
                     public void done(ParseException e) {
                         if (e == null) {
                             // Sign up succeeded
-                            goMainActivity();
                             finish();
+                            goMainActivity();
                         } else {
                             // Sign up didn't succeed
                             Log.e("TAG", "Signup failed. Code: " + String.valueOf(e.getCode()), e); // Error message
