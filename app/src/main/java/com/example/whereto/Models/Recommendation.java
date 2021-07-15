@@ -63,6 +63,10 @@ public class Recommendation extends ParseObject {
         put(KEY_VISIT, visit);
     }
 
+    /***************************
+     * Class Functions
+     ***************************/
+
     // Calculates the date in which a recommendation was created and returns
     public static String calculateTimeAgo(Date createdAt) {
 
