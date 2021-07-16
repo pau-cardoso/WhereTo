@@ -1,6 +1,7 @@
 package com.example.whereto;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.whereto.Models.Recommendation;
 
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +22,8 @@ import java.util.List;
 
 public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAdapter.ViewHolder> {
 
-    public static final String TAG = "RecomemendationAdapter";
+    public static final String TAG = "RecommendationAdapter";
+    public static final String KEY_PROFILE_PICTURE = "profilePicture";
 
     private Context context;
     private List<Recommendation> recommendations;
@@ -60,6 +63,7 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivProfileImage;
+        ImageView ivPictureReview;
         TextView tvName;
         TextView tvUsername;
         TextView tvPlace;
@@ -71,6 +75,7 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
+            ivPictureReview = itemView.findViewById(R.id.ivPictureReview);
             tvName = itemView.findViewById(R.id.tvName);
             tvUsername = itemView.findViewById(R.id.tvUsername);
             tvPlace = itemView.findViewById(R.id.tvPlace);
@@ -81,12 +86,20 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
         }
 
         public void bind(Recommendation recommendation) {
-            //tvName.setText(recommendation.getUser().getName());
+            // Setting the text views
+            tvName.setText(recommendation.getUser().getString("name"));
             tvUsername.setText(recommendation.getUser().getUsername());
             tvPlace.setText(recommendation.getPlace());
             tvReview.setText(recommendation.getReview());
             tvCreatedAt.setText(recommendation.calculateTimeAgo(recommendation.getCreatedAt()));
-            //Glide.with(this).load(recommendation.getImage().getUrl()).into(ivProfileImage);
+
+            // Rating bars (Star and price)
+            rbStars.setRating(recommendation.getRate());
+            rbPrice.setRating(recommendation.getPriceRate());
+
+            // Loading the images into de view
+            Glide.with(context).load(recommendation.getUser().getParseFile(KEY_PROFILE_PICTURE).getUrl()).circleCrop().into(ivProfileImage); // TODO Check if doing a User model
+            Glide.with(context).load(recommendation.getPicture().getUrl()).into(ivPictureReview);
         }
     }
 }

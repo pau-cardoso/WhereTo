@@ -3,6 +3,7 @@ package com.example.whereto.Models;
 import android.util.Log;
 
 import com.parse.ParseClassName;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -17,10 +18,13 @@ public class Recommendation extends ParseObject {
     public static final String KEY_PLACE = "place";
     public static final String KEY_REVIEW = "review";
     public static final String KEY_LOCATION = "location";
+    public static final String KEY_RATE = "rate";
+    public static final String KEY_PRICE_RATE = "priceRate";
+    public static final String KEY_PICTURE = "picture";
     public static final String KEY_USER = "user";
-    public static final String KEY_EAT = "Food";
-    public static final String KEY_STAY = "Stay";
-    public static final String KEY_VISIT = "Visit";
+    public static final String KEY_EAT = "foodCategory";
+    public static final String KEY_STAY = "stayCategory";
+    public static final String KEY_VISIT = "visitCategory";
 
     /***************************
      * Setters and Getters
@@ -48,6 +52,30 @@ public class Recommendation extends ParseObject {
     }
     public void setLocation(String location) {
         put(KEY_LOCATION, location);
+    }
+
+    // Rate of the recommendation data
+    public float getRate() {
+        return getNumber(KEY_RATE).floatValue();
+    }
+    public void setRate(Number rate) {
+        put(KEY_RATE, rate);
+    }
+
+    // Price rate of the recommendation
+    public int getPriceRate() {
+        return getNumber(KEY_PRICE_RATE).intValue();
+    }
+    public void setPriceRate(Number priceRate) {
+        put(KEY_PRICE_RATE, priceRate);
+    }
+
+    // Picture file of the recommendation
+    public ParseFile getPicture() {
+        return getParseFile(KEY_PICTURE);
+    }
+    public void setPicture(ParseFile picture) {
+        put(KEY_PICTURE, picture);
     }
 
     // User data

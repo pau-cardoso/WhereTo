@@ -49,4 +49,7 @@ dependencies {
     implementation 'org.parceler:parceler-api:1.1.12' // For adding Parceler
     annotationProcessor 'org.parceler:parceler:1.1.12' // For adding Parceler
     implementation 'androidx.recyclerview:recyclerview:1.1.0' // For the RecyclerView
+    implementation 'com.github.bumptech.glide:glide:4.12.0' // For displaying images with Glide library
+    // Glide v4 uses this new annotation processor -- see https://bumptech.github.io/glide/doc/generatedapi.html
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0' // For displaying images with Glide library
 }
