@@ -48,4 +48,5 @@ dependencies {
     implementation "com.github.parse-community.Parse-SDK-Android:parse:1.25.0" // Installing Parse SDK
     implementation 'org.parceler:parceler-api:1.1.12' // For adding Parceler
     annotationProcessor 'org.parceler:parceler:1.1.12' // For adding Parceler
+    implementation 'androidx.recyclerview:recyclerview:1.1.0' // For the RecyclerView
 }

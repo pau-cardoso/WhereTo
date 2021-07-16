@@ -3,7 +3,6 @@ package com.example.whereto.Models;
 import android.util.Log;
 
 import com.parse.ParseClassName;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -15,6 +14,8 @@ import java.util.Date;
 @ParseClassName("Recommendation")
 public class Recommendation extends ParseObject {
 
+    public static final String KEY_PLACE = "place";
+    public static final String KEY_REVIEW = "review";
     public static final String KEY_LOCATION = "location";
     public static final String KEY_USER = "user";
     public static final String KEY_EAT = "Food";
@@ -24,6 +25,22 @@ public class Recommendation extends ParseObject {
     /***************************
      * Setters and Getters
      ***************************/
+
+    // Place recommended name data
+    public String getPlace() {
+        return getString(KEY_PLACE);
+    }
+    public void setPlace(String place) {
+        put(KEY_PLACE, place);
+    }
+
+    // Review data
+    public String getReview() {
+        return getString(KEY_REVIEW);
+    }
+    public void setReview(String review) {
+        put(KEY_REVIEW, review);
+    }
 
     // Location data
     public String getLocation() {
@@ -41,7 +58,7 @@ public class Recommendation extends ParseObject {
         put(KEY_USER, user);
     }
 
-    // Category marks for the recommendations
+    /* Category marks for the recommendations */
     public boolean getEat() {
         return getBoolean(KEY_EAT);
     }
