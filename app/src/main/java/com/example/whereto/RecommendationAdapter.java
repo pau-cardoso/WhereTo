@@ -58,6 +58,18 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
         return recommendations.size();
     }
 
+    // Clean all elements of the recycler
+    public void clear() {
+        recommendations.clear();
+        notifyDataSetChanged();
+    }
+
+    // Add a list of items -- change to type used
+    public void addAll(List<Recommendation> list) {
+        recommendations.addAll(list);
+        notifyDataSetChanged();
+    }
+
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
     public class ViewHolder extends RecyclerView.ViewHolder {

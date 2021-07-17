@@ -5,9 +5,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +19,8 @@ import android.view.ViewGroup;
 import com.example.whereto.Models.Recommendation;
 import com.example.whereto.R;
 import com.example.whereto.RecommendationAdapter;
+import com.example.whereto.ViewPagerAdapter;
+import com.google.android.material.tabs.TabLayout;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -35,9 +39,11 @@ public class RecommendationsFragment extends Fragment {
 
     private static final String TAG = "RecommendationsFragment";
 
-    RecyclerView rvRecommendation;
     RecommendationAdapter adapter;
     List<Recommendation> allRecommendations;
+    TabLayout tlTabs;
+    ViewPager2 viewPager;
+    ViewPagerAdapter vpAdapter;
 
     public RecommendationsFragment() {
         // Required empty public constructor
@@ -54,50 +60,38 @@ public class RecommendationsFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        rvRecommendation = view.findViewById(R.id.rvRecommendations);
+        // Find components from view
+        tlTabs = view.findViewById(R.id.tlTabs);
+        viewPager = view.findViewById(R.id.viewPager);
 
-        // initialize the array that will hold posts and create a PostsAdapter
-        allRecommendations = new ArrayList<>();
-        adapter = new RecommendationAdapter(getContext(), allRecommendations);
+        // Setting the adapter for tab view by category
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        vpAdapter = new ViewPagerAdapter(fm, getLifecycle());
+        viewPager.setAdapter(vpAdapter);
 
-        // set the adapter on the recycler view
-        rvRecommendation.setAdapter(adapter);
-        // set the layout manager on the recycler view
-        rvRecommendation.setLayoutManager(new LinearLayoutManager(getContext()));
-        // query posts from Parse
-        queryPosts();
-    }
-
-    protected void queryPosts() {
-        // specify what type of data we want to query - Post.class
-        ParseQuery<Recommendation> query = ParseQuery.getQuery(Recommendation.class);
-        Log.i(TAG, String.valueOf(query));
-        // include data referred by user key
-        query.include(Recommendation.KEY_USER);
-        // limit query to latest 20 items
-        query.setLimit(20);
-        // order posts by creation date (newest first)
-        query.addDescendingOrder("createdAt");
-        // start an asynchronous call for posts
-        query.findInBackground((recommendations, e) -> {
-            // check for errors
-            if (e != null) {
-                Log.e(TAG, "Issue with getting recommendations", e);
-                return;
+        tlTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
             }
 
-            // for debugging purposes let's print every post description to logcat
-            for (Recommendation recommendation : recommendations) {
-                Log.i(TAG, "Place: " + recommendation.getPlace() + ", username: " + recommendation.getUser().getUsername());
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
             }
 
-            // save received posts to list and notify adapter of new data
-            allRecommendations.addAll(recommendations);
-            // TODO refresh
-            //adapter.clear();
-            //adapter.addAll(recommendations);
-            adapter.notifyDataSetChanged();
-            //swipeContainer.setRefreshing(false);
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
         });
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                tlTabs.selectTab(tlTabs.getTabAt(position));
+            }
+        });
+
     }
 }
