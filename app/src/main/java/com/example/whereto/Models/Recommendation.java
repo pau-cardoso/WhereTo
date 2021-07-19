@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -22,9 +23,9 @@ public class Recommendation extends ParseObject {
     public static final String KEY_PRICE_RATE = "priceRate";
     public static final String KEY_PICTURE = "picture";
     public static final String KEY_USER = "user";
-    public static final String KEY_EAT = "foodCategory";
-    public static final String KEY_STAY = "stayCategory";
-    public static final String KEY_VISIT = "visitCategory";
+    public static final String KEY_EAT = "foodTag";
+    public static final String KEY_STAY = "stayTag";
+    public static final String KEY_VISIT = "visitTag";
 
     /***************************
      * Setters and Getters
@@ -47,10 +48,10 @@ public class Recommendation extends ParseObject {
     }
 
     // Location data
-    public String getLocation() {
-        return getString(KEY_LOCATION);
+    public ParseGeoPoint getLocation() {
+        return getParseGeoPoint(KEY_LOCATION);
     }
-    public void setLocation(String location) {
+    public void setLocation(ParseGeoPoint location) {
         put(KEY_LOCATION, location);
     }
 
