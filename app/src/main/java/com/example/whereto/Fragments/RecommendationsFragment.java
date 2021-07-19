@@ -1,5 +1,6 @@
 package com.example.whereto.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,10 +17,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.whereto.CreateActivity;
 import com.example.whereto.Models.Recommendation;
 import com.example.whereto.R;
 import com.example.whereto.RecommendationAdapter;
 import com.example.whereto.ViewPagerAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -44,6 +47,7 @@ public class RecommendationsFragment extends Fragment {
     TabLayout tlTabs;
     ViewPager2 viewPager;
     ViewPagerAdapter vpAdapter;
+    FloatingActionButton btnAdd;
 
     public RecommendationsFragment() {
         // Required empty public constructor
@@ -63,6 +67,15 @@ public class RecommendationsFragment extends Fragment {
         // Find components from view
         tlTabs = view.findViewById(R.id.tlTabs);
         viewPager = view.findViewById(R.id.viewPager);
+        btnAdd = view.findViewById(R.id.btnAdd);
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), CreateActivity.class);
+                startActivity(i);
+            }
+        });
 
         // Setting the adapter for tab view by category
         FragmentManager fm = getActivity().getSupportFragmentManager();
