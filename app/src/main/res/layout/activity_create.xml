@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tvCreate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -72,7 +72,6 @@
 
     <RatingBar
         android:id="@+id/rbStars"
-        style="@android:style/Widget.Material.Light.RatingBar.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/etReview"
@@ -82,39 +81,43 @@
         android:layout_marginTop="49dp" />
 
     <RatingBar
+        android:id="@+id/rbPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etReview"
-        android:layout_toEndOf="@+id/rbStars"
-        android:layout_marginTop="35dp"
-        android:layout_margin="50dp"
-        android:numStars="3"
-        style="@style/Widget.AppCompat.RatingBar.Small"/>
+        android:layout_below="@+id/rbStars"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="50dp"
+        android:numStars="3" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chipGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rbStars"
+        android:layout_below="@+id/rbPrice"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="123dp"
-        android:layout_marginTop="52dp">
+        android:layout_marginTop="10dp">
 
         <!-- Chips can be declared here, or added dynamically. -->
         <com.google.android.material.chip.Chip
             android:id="@+id/chipEat"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Eat" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipStay"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Stay" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipVisit"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Visit" />
@@ -130,6 +133,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:backgroundTint="#0095f6"
-        android:text="Sign Up" />
+        android:text="Submit" />
 
 </RelativeLayout>
