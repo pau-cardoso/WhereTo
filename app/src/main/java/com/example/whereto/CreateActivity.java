@@ -125,7 +125,7 @@ public class CreateActivity extends AppCompatActivity {
                     Toast.makeText(CreateActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
                 }
                 Log.i(TAG, "Post was successful!");
-                //etDescription.setText("");
+                finish(); // Closes window for new recommendation and back to main screen
             }
         });
     }
