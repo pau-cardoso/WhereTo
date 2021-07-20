@@ -1,7 +1,6 @@
 package com.example.whereto;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import com.bumptech.glide.Glide;
 import com.example.whereto.Models.Recommendation;
 
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -88,7 +86,7 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
             super(itemView);
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
             ivPictureReview = itemView.findViewById(R.id.ivPictureReview);
-            tvName = itemView.findViewById(R.id.tvName);
+            tvName = itemView.findViewById(R.id.tvNameP);
             tvUsername = itemView.findViewById(R.id.tvUsername);
             tvPlace = itemView.findViewById(R.id.tvPlace);
             tvReview = itemView.findViewById(R.id.tvReview);
