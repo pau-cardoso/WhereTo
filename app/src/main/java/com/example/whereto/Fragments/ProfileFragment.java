@@ -44,7 +44,7 @@ public class ProfileFragment extends Fragment {
     
     public static final String TAG = "ProfileFragment";
     private static final String KEY_PROFILE_PICTURE = "profilePicture";
-    protected static ParseUser currentUser = ParseUser.getCurrentUser();
+    protected ParseUser currentUser = ParseUser.getCurrentUser();
     
     Button btnLogout;
     Toolbar tbProfile;
