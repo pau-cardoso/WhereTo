@@ -1,138 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateActivity">
+    android:fillViewport="true">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tbCreate"
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        tools:context=".CreateActivity">
 
-        <TextView
-            android:id="@+id/tvCreate"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tbCreate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvCreate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/new_recommendation"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="29dp" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <!-- TODO app:srcCompat=""
+        TODO android:contentDescription="Logo WhereTo" -->
+
+        <EditText
+            android:id="@+id/etPlace"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/tbCreate"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edit_text_border"
+            android:ems="10"
+            android:hint="Place"
+            android:inputType="textPersonName"
+            android:paddingStart="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/etReview"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/etPlace"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edit_text_border"
+            android:ems="10"
+            android:hint="Review"
+            android:inputType="textImeMultiLine"
+            android:paddingStart="10dp"
+            android:singleLine="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RatingBar
+            android:id="@+id/rbStars"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/new_recommendation"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="29dp" />
+            android:layout_below="@+id/etReview"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="20dp" />
 
-    </androidx.appcompat.widget.Toolbar>
-
-    <!-- TODO app:srcCompat=""
-    TODO android:contentDescription="Logo WhereTo" -->
-
-    <EditText
-        android:id="@+id/etPlace"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/tbCreate"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:background="@drawable/edit_text_border"
-        android:ems="10"
-        android:hint="Place"
-        android:inputType="textPersonName"
-        android:paddingStart="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/etReview"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/etPlace"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/edit_text_border"
-        android:ems="10"
-        android:hint="Review"
-        android:inputType="textImeMultiLine"
-        android:paddingStart="10dp"
-        android:singleLine="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <RatingBar
-        android:id="@+id/rbStars"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etReview"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="49dp" />
-
-    <RatingBar
-        android:id="@+id/rbPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rbStars"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="50dp"
-        android:numStars="3" />
-
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rbPrice"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="123dp"
-        android:layout_marginTop="10dp">
-
-        <!-- Chips can be declared here, or added dynamically. -->
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipEat"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
+        <RatingBar
+            android:id="@+id/rbPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Eat" />
+            android:layout_below="@+id/rbStars"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="50dp"
+            android:layout_centerHorizontal="true"
+            android:numStars="3" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipStay"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Stay" />
+            android:layout_below="@+id/rbPrice"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="123dp"
+            android:layout_marginTop="15dp">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipVisit"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
+            <!-- Chips can be declared here, or added dynamically. -->
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipEat"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Eat" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipStay"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Stay" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipVisit"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Visit" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <Button
+            android:id="@+id/btnCapture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Visit" />
+            android:layout_below="@+id/chipGroup"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="Capture" />
 
-    </com.google.android.material.chip.ChipGroup>
+        <ImageView
+            android:id="@+id/ivPicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnCapture"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            tools:srcCompat="@tools:sample/avatars" />
 
-    <Button
-        android:id="@+id/btnSignup"
-        android:layout_width="300dp"
-        android:layout_height="55dp"
-        android:layout_below="@+id/chipGroup"
-        android:layout_alignParentBottom="false"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        android:backgroundTint="#0095f6"
-        android:text="Submit" />
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="300dp"
+            android:layout_height="55dp"
+            android:layout_below="@+id/ivPicture"
+            android:layout_alignParentBottom="false"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="30dp"
+            android:backgroundTint="#0095f6"
+            android:text="Submit" />
 
-</RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>

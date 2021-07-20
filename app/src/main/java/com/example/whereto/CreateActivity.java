@@ -2,7 +2,6 @@ package com.example.whereto;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -45,6 +44,7 @@ public class CreateActivity extends AppCompatActivity {
     RatingBar rbStars;
     RatingBar rbPrice;
     ChipGroup chipGroup;
+    Button btnCapture;
     Button btnSubmit;
 
     @Override
@@ -58,7 +58,15 @@ public class CreateActivity extends AppCompatActivity {
         rbStars = findViewById(R.id.rbStars);
         rbPrice = findViewById(R.id.rbPrice);
         chipGroup = findViewById(R.id.chipGroup);
-        btnSubmit = findViewById(R.id.btnSignup);
+        btnSubmit = findViewById(R.id.btnSubmit);
+        btnCapture = findViewById(R.id.btnCapture);
+
+        btnCapture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchCamera();
+            }
+        });
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +96,7 @@ public class CreateActivity extends AppCompatActivity {
                     }
                 }
 
-                saveRecommendation(recommendation, place, review, ratingStars, ratingPrice, null, location, currentUser);
+                saveRecommendation(recommendation, place, review, ratingStars, ratingPrice, photoFile, location, currentUser);
 
                 // TODO conditionals for when fields are empty
 
@@ -100,14 +108,14 @@ public class CreateActivity extends AppCompatActivity {
         });
     }
 
-    private void saveRecommendation(Recommendation recommendation, String place, String review, Number rate, Number priceRate, ParseFile picture, ParseGeoPoint location, ParseUser currentUser) {
+    private void saveRecommendation(Recommendation recommendation, String place, String review, Number rate, Number priceRate, File picture, ParseGeoPoint location, ParseUser currentUser) {
         recommendation.setPlace(place);
         recommendation.setReview(review);
         recommendation.setRate(rate);
         recommendation.setPriceRate(priceRate);
         recommendation.setUser(currentUser);
         recommendation.setLocation(location);
-        // TODO recommendation.setPicture(picture);
+        recommendation.setPicture(new ParseFile(picture));
 
         recommendation.saveInBackground(new SaveCallback() {
             @Override
@@ -122,7 +130,7 @@ public class CreateActivity extends AppCompatActivity {
         });
     }
 
-    public void onLaunchCamera(View view) {
+    public void launchCamera() {
         // create Intent to take a picture and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Create a File reference for future access
@@ -162,8 +170,8 @@ public class CreateActivity extends AppCompatActivity {
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 // RESIZE BITMAP, see section below
                 // Load the taken image into a preview
-                //TODO ImageView ivPreview = (ImageView) findViewById(R.id.);
-                //ivPreview.setImageBitmap(takenImage);
+                ImageView ivPreview = (ImageView) findViewById(R.id.ivPicture);
+                ivPreview.setImageBitmap(takenImage);
             } else { // Result was a failure
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
