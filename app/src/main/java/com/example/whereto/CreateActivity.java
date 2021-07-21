@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.whereto.Models.Recommendation;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
@@ -125,6 +126,8 @@ public class CreateActivity extends AppCompatActivity {
                     Toast.makeText(CreateActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
                 }
                 Log.i(TAG, "Post was successful!");
+                FloatingActionButton btnAdd = findViewById(R.id.btnAdd);
+                btnAdd.setVisibility(View.VISIBLE);
                 finish(); // Closes window for new recommendation and back to main screen
             }
         });

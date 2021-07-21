@@ -67,5 +67,20 @@
         android:clickable="true"
         android:src="@drawable/ic_baseline_add_24" />
 
+    <View
+        android:id="@+id/circle"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignStart="@+id/btnAdd"
+        android:layout_alignTop="@+id/btnAdd"
+        android:layout_alignEnd="@+id/btnAdd"
+        android:layout_alignBottom="@+id/btnAdd"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="-0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/circle"
+        android:visibility="invisible" />
+
 
 </RelativeLayout>
