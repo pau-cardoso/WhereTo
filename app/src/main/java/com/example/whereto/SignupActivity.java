@@ -89,6 +89,6 @@ public class SignupActivity extends AppCompatActivity {
         Log.i(TAG, "Entered goMainActivity");
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
-        finish();
+        finishAffinity();
     }
 }
