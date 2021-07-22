@@ -20,19 +20,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/new_recommendation"
+            android:text="Map view"
             android:textColor="@color/white"
+            android:textSize="18sp"
             tools:layout_editor_absoluteX="29dp" />
 
     </androidx.appcompat.widget.Toolbar>
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tbMap"
-        android:layout_marginTop="0dp"
-        android:text="Hello I'm map" />
+        android:layout_below="@+id/tbMap" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnAdd"
