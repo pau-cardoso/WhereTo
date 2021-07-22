@@ -47,7 +47,7 @@ public class SignupActivity extends AppCompatActivity {
 
                 // Create the ParseUser
                 ParseUser user = new ParseUser();
-                if (username != "" && password != "") {
+                if (!username.equals("") && !password.equals("")) {
                     // Set core properties
                     user.setUsername(username);
                     user.setPassword(password);
