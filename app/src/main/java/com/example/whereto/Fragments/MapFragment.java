@@ -1,7 +1,10 @@
 package com.example.whereto.Fragments;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +12,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.whereto.CreateActivity;
+import com.example.whereto.Models.Recommendation;
 import com.example.whereto.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,8 +26,14 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,9 +42,13 @@ import org.jetbrains.annotations.NotNull;
  */
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
+    private static final String TAG = "MapFragment";
+
     private GoogleMap mMap;
     private MapView mMapView;
     private View mView;
+    public List<Recommendation> allRecommendations = new ArrayList<>();
+    private boolean locationPermissionGranted;
 
     Toolbar tbMap;
     FloatingActionButton btnAdd;
@@ -88,8 +104,54 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng qro = new LatLng(20.694582486427734, -100.46767054999015);
+        mMap.addMarker(new MarkerOptions().position(qro).title("Marker in Querétaro"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(qro,13));
+
+        queryAllRecommendations();
+        for (Recommendation recommendation : allRecommendations) {
+            Log.i(TAG, "New marker");
+            mMap.addMarker(new MarkerOptions().position(new LatLng(recommendation.getLocation().getLatitude(), recommendation.getLocation().getLongitude())).title(recommendation.getPlace()));
+        }
+    }
+
+    /* TODO
+    private void getLocationPermission() {
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+
+        if (ContextCompat.checkSelfPermission(getContext().getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            locationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }*/
+
+    protected void queryAllRecommendations() {
+        Log.i(TAG, "Entered queryAllRecommendations");
+        // specify what type of data we want to query - Recommendation.class
+        ParseQuery<Recommendation> query = ParseQuery.getQuery(Recommendation.class);
+        // include data referred by user key
+        query.include(Recommendation.KEY_USER);
+        // limit query to latest 20 items
+        query.setLimit(20);
+
+        // Fetches data synchronously
+        try {
+            List<Recommendation> results = query.find();
+            for (Recommendation result : results) {
+                allRecommendations.add(result);
+                System.out.println("Object found " + result.getObjectId());
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }
+
