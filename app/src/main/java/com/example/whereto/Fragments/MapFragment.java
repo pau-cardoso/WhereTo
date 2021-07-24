@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.whereto.Adapters.CustomWindowAdapter;
 import com.example.whereto.CreateActivity;
 import com.example.whereto.Models.Recommendation;
 import com.example.whereto.R;
@@ -105,14 +106,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         // Add a marker in Sydney and move the camera
         LatLng qro = new LatLng(20.694582486427734, -100.46767054999015);
-        mMap.addMarker(new MarkerOptions().position(qro).title("Marker in Querétaro"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(qro,13));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(qro,10));
 
         queryAllRecommendations();
         for (Recommendation recommendation : allRecommendations) {
-            Log.i(TAG, "New marker");
-            mMap.addMarker(new MarkerOptions().position(new LatLng(recommendation.getLocation().getLatitude(), recommendation.getLocation().getLongitude())).title(recommendation.getPlace()));
+            mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(recommendation.getLocation().getLatitude(), recommendation.getLocation().getLongitude()))
+                    .title(recommendation.getPlace())
+                    .snippet(recommendation.getReview()));
         }
+        mMap.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater()));
     }
 
     /* TODO

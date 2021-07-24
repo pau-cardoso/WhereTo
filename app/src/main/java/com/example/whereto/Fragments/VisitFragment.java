@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.whereto.Models.Recommendation;
 import com.example.whereto.R;
-import com.example.whereto.RecommendationAdapter;
+import com.example.whereto.Adapters.RecommendationAdapter;
 import com.parse.ParseQuery;
 
 import org.jetbrains.annotations.NotNull;

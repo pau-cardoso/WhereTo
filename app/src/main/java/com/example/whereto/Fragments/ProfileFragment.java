@@ -26,7 +26,7 @@ import com.bumptech.glide.Glide;
 import com.example.whereto.LoginActivity;
 import com.example.whereto.Models.Recommendation;
 import com.example.whereto.R;
-import com.example.whereto.RecommendationAdapter;
+import com.example.whereto.Adapters.RecommendationAdapter;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 

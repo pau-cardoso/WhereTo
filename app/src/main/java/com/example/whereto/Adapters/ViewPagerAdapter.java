@@ -1,4 +1,4 @@
-package com.example.whereto;
+package com.example.whereto.Adapters;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

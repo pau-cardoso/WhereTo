@@ -1,4 +1,4 @@
-package com.example.whereto;
+package com.example.whereto.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.whereto.Models.Recommendation;
+import com.example.whereto.R;
 
 import org.jetbrains.annotations.NotNull;
 

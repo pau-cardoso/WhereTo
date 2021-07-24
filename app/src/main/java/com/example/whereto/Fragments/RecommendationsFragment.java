@@ -8,12 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,18 +20,14 @@ import android.view.animation.AnimationUtils;
 import com.example.whereto.CreateActivity;
 import com.example.whereto.Models.Recommendation;
 import com.example.whereto.R;
-import com.example.whereto.RecommendationAdapter;
-import com.example.whereto.ViewPagerAdapter;
+import com.example.whereto.Adapters.RecommendationAdapter;
+import com.example.whereto.Adapters.ViewPagerAdapter;
 import com.example.whereto.databinding.ActivityMainBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

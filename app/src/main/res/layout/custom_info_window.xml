@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="150dp"
+    android:layout_height="wrap_content"
+    android:background="#FCF8EE">
+
+    <TextView
+        android:id="@+id/tvInfoWindowTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:fontFamily="@font/montserrat"
+        android:singleLine="true"
+        android:text="title"
+        android:textColor="#3A445D"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="title" />
+
+    <TextView
+        android:id="@+id/tvInfoWindowDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvInfoWindowTitle"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Hours"
+        android:textColor="#C19875"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/ivInfoWindowPic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvInfoWindowDescription"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+</RelativeLayout>
