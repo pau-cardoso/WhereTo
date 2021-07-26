@@ -113,7 +113,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(recommendation.getLocation().getLatitude(), recommendation.getLocation().getLongitude()))
                     .title(recommendation.getPlace())
-                    .snippet(recommendation.getReview()));
+                    .snippet(recommendation.getReview()).draggable(true));
         }
         mMap.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater()));
     }
