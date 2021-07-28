@@ -42,7 +42,7 @@ public class CustomWindowAdapter implements GoogleMap.InfoWindowAdapter {
         TextView description = (TextView) v.findViewById(R.id.tvInfoWindowDescription);
         description.setText(marker.getSnippet());
 
-        //ImageView image = (ImageView) v.findViewById(R.id.ivInfoWindowPic);
+        // TODO ImageView image = (ImageView) v.findViewById(R.id.ivInfoWindowPic);
         // Return info window contents
         return v;
     }

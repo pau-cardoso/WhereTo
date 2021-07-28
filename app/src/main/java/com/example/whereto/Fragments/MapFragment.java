@@ -63,6 +63,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private boolean locationPermissionGranted;
     private FusedLocationProviderClient mFusedLocationProviderClient;
+    public Location currentLocation;
 
     Toolbar tbMap;
     FloatingActionButton btnAdd;
@@ -91,11 +92,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         Log.d(TAG, "onViewCreated");
         getLocationPermission();
         //initMap();
+        Log.d(TAG, "Location: " + String.valueOf(currentLocation));
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getContext(), CreateActivity.class);
+                i.putExtra("location", currentLocation);
                 startActivity(i);
             }
         });
@@ -134,21 +137,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             mMap.setMyLocationEnabled(true);
         }
 
-        // Add a marker in Sydney and move the camera
-        LatLng qro = new LatLng(20.694582486427734, -100.46767054999015);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(qro,10));
-
         queryAllRecommendations();
         for (Recommendation recommendation : allRecommendations) {
             mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(recommendation.getLocation().getLatitude(), recommendation.getLocation().getLongitude()))
                     .title(recommendation.getPlace())
-                    .snippet(recommendation.getReview()).draggable(true));
+                    .snippet(recommendation.getReview())
+                    .draggable(true));
         }
         mMap.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater()));
     }
 
-    private void getLocationPermission() {
+    public void getLocationPermission() {
         /*
          * Request location permission, so that we can get the location of the
          * device. The result of the permission request is handled by a callback,
@@ -194,7 +194,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    private void getDeviceLocation() {
+    public void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting the device's current location");
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
         try {
@@ -205,7 +205,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     public void onComplete(@NonNull @NotNull Task task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "onComplete: found location!");
-                            Location currentLocation = (Location) task.getResult();
+                            currentLocation = (Location) task.getResult();
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM);
                         } else {
                             Log.d(TAG, "onComplete: current location is null");
@@ -219,7 +219,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    private void moveCamera(LatLng latLng, float zoom) {
+    public void moveCamera(LatLng latLng, float zoom) {
         Log.d(TAG, "moveCamera: moving the camara to lat: " + latLng.latitude + ", lng: " + latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }

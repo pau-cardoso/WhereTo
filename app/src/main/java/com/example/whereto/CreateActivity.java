@@ -1,11 +1,17 @@
 package com.example.whereto;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,7 +24,23 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.whereto.Adapters.CustomWindowAdapter;
 import com.example.whereto.Models.Recommendation;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.ParseException;
@@ -27,17 +49,32 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.io.File;
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
+import org.parceler.Parcels;
 
-public class CreateActivity extends AppCompatActivity {
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.util.List;
+import java.util.Map;
+
+import kotlin.jvm.internal.markers.KMappedMarker;
+
+public class CreateActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final String TAG = "CreateActivity";
     private static final int EAT_CHIP = R.id.chipEat;
     private static final int STAY_CHIP = R.id.chipStay;
     private static final int VISIT_CHIP = R.id.chipVisit;
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 253;
+    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+    private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
+    private static final float DEFAULT_ZOOM = 15;
     public String photoFileName = "photo.jpg";
+    private boolean locationPermissionGranted;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
 
     File photoFile;
     EditText etPlace;
@@ -47,6 +84,12 @@ public class CreateActivity extends AppCompatActivity {
     ChipGroup chipGroup;
     Button btnCapture;
     Button btnSubmit;
+    ImageView ivMap;
+
+    GoogleMap mMap;
+    MapView mapCreate;
+    MapFragment mapFragment;
+    Location currentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +104,10 @@ public class CreateActivity extends AppCompatActivity {
         chipGroup = findViewById(R.id.chipGroup);
         btnSubmit = findViewById(R.id.btnSubmit);
         btnCapture = findViewById(R.id.btnCapture);
+        mapCreate = findViewById(R.id.mapCreate);
+
+        currentLocation = getIntent().getParcelableExtra("location");
+        initMap();
 
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,5 +226,34 @@ public class CreateActivity extends AppCompatActivity {
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void initMap() {
+        Log.d(TAG, "initMap: initializing map");
+        Log.d(TAG, "mapCreate: " + mapCreate);
+        if (mapCreate != null) {
+            Log.d(TAG, "initMap: entered if statement");
+            mapCreate.onCreate(null);
+            mapCreate.onResume();
+            mapCreate.getMapAsync(this);
+        }
+    }
+
+    @Override
+    public void onMapReady(@NonNull @NotNull GoogleMap googleMap) {
+        mMap = googleMap;
+        Log.d(TAG, "onMapReady: entered onMapReady");
+        LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        mMap.addMarker(new MarkerOptions()
+                .position(latLng)
+                .title("Your location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(@NonNull @NotNull LatLng latLng) {
+                Toast.makeText(CreateActivity.this, "Clicked on map!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
