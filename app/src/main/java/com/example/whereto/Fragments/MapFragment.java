@@ -106,22 +106,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         //tbMap = view.findViewById(R.id.tbMap);
         btnAdd = view.findViewById(R.id.btnAdd);
         mMapView = (MapView) mView.findViewById(R.id.map);
-        //etSearch = view.findViewById(R.id.etSearch);
+
+        // Getting location permission and starting the map
+        getLocationPermission();
+
+        /*********************************
+        * Google Places API configuration
+        *********************************/
 
         // Initialize the AutocompleteSupportFragment.
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-
         if (!Places.isInitialized()) {
             Places.initialize(getContext(), getString(R.string.google_maps_key));
         }
         PlacesClient placesClient = Places.createClient(getContext());
-
-        Log.d(TAG, "onViewCreated");
-        Log.d(TAG, "onViewCreated: AutocompleteSupportFragment: " + autocompleteFragment);
-        getLocationPermission();
-        //init();
-        //initMap();
-        Log.d(TAG, "Location: " + String.valueOf(currentLocation));
 
         // Specify the types of place data to return.
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
@@ -130,8 +128,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(@NonNull Place place) {
-                // TODO: Get info about the selected place.
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId() + ", " + place.getLatLng());
+                moveCamera(place.getLatLng(), 10);
             }
 
 
@@ -142,6 +140,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
+        // Click listener when user wants to add new recommendation
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,6 +151,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
+    // As long as map is not null, starts the map
     private void initMap() {
         Log.d(TAG, "initMap: initializing map");
         if (mMapView != null) {
@@ -160,44 +160,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             mMapView.getMapAsync(this);
         }
     }
-
-    private void init() {
-        Log.d(TAG, "init: initializing");
-        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH
-                    || actionId == EditorInfo.IME_ACTION_DONE
-                    || event.getAction() == KeyEvent.ACTION_DOWN
-                    || event.getAction() == KeyEvent.KEYCODE_ENTER) {
-
-                    // Method for searching
-                    geoLocate();
-                }
-                return false;
-            }
-        });
-    }
-
-    private void geoLocate() {
-        Log.d(TAG, "geoLocate: geolocating");
-
-        String searchString = etSearch.getText().toString();
-        Geocoder geocoder = new Geocoder(getContext());
-        List<Address> list = new ArrayList<>();
-        try {
-            list = geocoder.getFromLocationName(searchString, 1);
-        } catch (IOException e) {
-            Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
-        }
-
-        if (list.size() > 0) {
-            Address address = list.get(0);
-            Log.d(TAG, "geoLocate: found a location: " + address.toString());
-            //Toast.makeText(getContext(), address.toString(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
 
     /**
      * Manipulates the map once available.
@@ -233,30 +195,29 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mMap.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater()));
     }
 
+    /*
+     * Request location permission, so that we can get the location of the
+     * device. The result of the permission request is handled by a callback,
+     * onRequestPermissionsResult.
+     */
     public void getLocationPermission() {
-        /*
-         * Request location permission, so that we can get the location of the
-         * device. The result of the permission request is handled by a callback,
-         * onRequestPermissionsResult.
-         */
         Log.d(TAG, "getLocationPermission: getting location permissions");
 
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
         Manifest.permission.ACCESS_COARSE_LOCATION};
 
         if (ContextCompat.checkSelfPermission(getContext().getApplicationContext(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            Log.i(TAG, "Entered getLocationPermissions");
-                if (ContextCompat.checkSelfPermission(getContext().getApplicationContext(), COURSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    Log.i(TAG, "Entered first if on getLocationPermissions");
-                    locationPermissionGranted = true;
-                    initMap();
-                } else {
-                    ActivityCompat.requestPermissions(getActivity(),
-                            permissions, LOCATION_PERMISSION_REQUEST_CODE);
-                }
+            if (ContextCompat.checkSelfPermission(getContext().getApplicationContext(), COURSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                locationPermissionGranted = true;
+                initMap();
+            } else {
+                ActivityCompat.requestPermissions(getActivity(),
+                        permissions, LOCATION_PERMISSION_REQUEST_CODE);
+            }
         }
     }
 
+    // Checks user's result of permission of location and if give, saves true in variable
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull @NotNull String[] permissions, @NonNull @NotNull int[] grantResults) {
         locationPermissionGranted = false;
@@ -279,6 +240,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    // Once given permissions, gets location of user's device and saves it in variable
     public void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting the device's current location");
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
@@ -304,6 +266,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    // Moves map camera to given LatLng and given zoom
     public void moveCamera(LatLng latLng, float zoom) {
         Log.d(TAG, "moveCamera: moving the camara to lat: " + latLng.latitude + ", lng: " + latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
