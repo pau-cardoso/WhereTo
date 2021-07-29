@@ -3,12 +3,18 @@ package com.example.whereto.Fragments;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +29,7 @@ import com.example.whereto.Adapters.CustomWindowAdapter;
 import com.example.whereto.CreateActivity;
 import com.example.whereto.Models.Recommendation;
 import com.example.whereto.R;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -33,6 +40,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -40,7 +52,9 @@ import com.parse.ParseQuery;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -50,17 +64,21 @@ import java.util.List;
  */
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
+    // Constants
     private static final String TAG = "MapFragment";
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final float DEFAULT_ZOOM = 15;
 
+    // Components
     private GoogleMap mMap;
     private MapView mMapView;
     private View mView;
-    public List<Recommendation> allRecommendations = new ArrayList<>();
+    private EditText etSearch;
 
+    // Location variables
+    public List<Recommendation> allRecommendations = new ArrayList<>();
     private boolean locationPermissionGranted;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     public Location currentLocation;
@@ -85,14 +103,44 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState);
 
         // Finding view components
-        tbMap = view.findViewById(R.id.tbMap);
+        //tbMap = view.findViewById(R.id.tbMap);
         btnAdd = view.findViewById(R.id.btnAdd);
         mMapView = (MapView) mView.findViewById(R.id.map);
+        //etSearch = view.findViewById(R.id.etSearch);
+
+        // Initialize the AutocompleteSupportFragment.
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
+        if (!Places.isInitialized()) {
+            Places.initialize(getContext(), getString(R.string.google_maps_key));
+        }
+        PlacesClient placesClient = Places.createClient(getContext());
 
         Log.d(TAG, "onViewCreated");
+        Log.d(TAG, "onViewCreated: AutocompleteSupportFragment: " + autocompleteFragment);
         getLocationPermission();
+        //init();
         //initMap();
         Log.d(TAG, "Location: " + String.valueOf(currentLocation));
+
+        // Specify the types of place data to return.
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
+
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                // TODO: Get info about the selected place.
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId() + ", " + place.getLatLng());
+            }
+
+
+            @Override
+            public void onError(@NonNull Status status) {
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: " + status);
+            }
+        });
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +158,43 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             mMapView.onCreate(null);
             mMapView.onResume();
             mMapView.getMapAsync(this);
+        }
+    }
+
+    private void init() {
+        Log.d(TAG, "init: initializing");
+        etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                    || actionId == EditorInfo.IME_ACTION_DONE
+                    || event.getAction() == KeyEvent.ACTION_DOWN
+                    || event.getAction() == KeyEvent.KEYCODE_ENTER) {
+
+                    // Method for searching
+                    geoLocate();
+                }
+                return false;
+            }
+        });
+    }
+
+    private void geoLocate() {
+        Log.d(TAG, "geoLocate: geolocating");
+
+        String searchString = etSearch.getText().toString();
+        Geocoder geocoder = new Geocoder(getContext());
+        List<Address> list = new ArrayList<>();
+        try {
+            list = geocoder.getFromLocationName(searchString, 1);
+        } catch (IOException e) {
+            Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
+        }
+
+        if (list.size() > 0) {
+            Address address = list.get(0);
+            Log.d(TAG, "geoLocate: found a location: " + address.toString());
+            //Toast.makeText(getContext(), address.toString(), Toast.LENGTH_SHORT).show();
         }
     }
 
