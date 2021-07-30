@@ -27,6 +27,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.whereto.Adapters.CustomWindowAdapter;
 import com.example.whereto.CreateActivity;
+import com.example.whereto.DetailRecommendationActivity;
 import com.example.whereto.Models.Recommendation;
 import com.example.whereto.R;
 import com.google.android.gms.common.api.Status;
@@ -37,6 +38,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -62,7 +64,7 @@ import java.util.List;
  * Use the {@link MapFragment} factory method to
  * create an instance of this fragment.
  */
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     // Constants
     private static final String TAG = "MapFragment";
@@ -75,7 +77,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private MapView mMapView;
     private View mView;
-    private EditText etSearch;
+    private FloatingActionButton btnAdd;
 
     // Location variables
     public List<Recommendation> allRecommendations = new ArrayList<>();
@@ -83,8 +85,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private FusedLocationProviderClient mFusedLocationProviderClient;
     public Location currentLocation;
 
-    Toolbar tbMap;
-    FloatingActionButton btnAdd;
 
     public MapFragment() {
         // Required empty public constructor
@@ -105,7 +105,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         // Finding view components
         //tbMap = view.findViewById(R.id.tbMap);
         btnAdd = view.findViewById(R.id.btnAdd);
-        mMapView = (MapView) mView.findViewById(R.id.map);
+        mMapView = mView.findViewById(R.id.map);
 
         // Getting location permission and starting the map
         getLocationPermission();
@@ -131,7 +131,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId() + ", " + place.getLatLng());
                 moveCamera(place.getLatLng(), 10);
             }
-
 
             @Override
             public void onError(@NonNull Status status) {
@@ -186,13 +185,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         queryAllRecommendations();
         for (Recommendation recommendation : allRecommendations) {
-            mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(recommendation.getLocation().getLatitude(), recommendation.getLocation().getLongitude()))
-                    .title(recommendation.getPlace())
-                    .snippet(recommendation.getReview())
-                    .draggable(true));
+            Marker marker = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(recommendation.getLocation().getLatitude(), recommendation.getLocation().getLongitude())));
+            marker.setTag(recommendation);
         }
-        mMap.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater()));
+        // Set a listener for marker click.
+        mMap.setOnMarkerClickListener(this);
     }
 
     /*
@@ -291,6 +289,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean onMarkerClick(@NonNull @NotNull Marker marker) {
+        Log.d(TAG, "onMarkerClick: entered onMarkerClick");
+
+        Recommendation markerRecommendation = (Recommendation) marker.getTag();
+        Intent i = new Intent(getActivity(), DetailRecommendationActivity.class);
+        i.putExtra("recommendation", markerRecommendation);
+        startActivity(i);
+
+        return false;
     }
 }
 
