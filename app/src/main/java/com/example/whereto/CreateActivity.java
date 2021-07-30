@@ -1,5 +1,9 @@
 package com.example.whereto;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -7,7 +11,9 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,6 +21,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -68,13 +75,8 @@ public class CreateActivity extends AppCompatActivity implements OnMapReadyCallb
     private static final int STAY_CHIP = R.id.chipStay;
     private static final int VISIT_CHIP = R.id.chipVisit;
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 253;
-    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
-    private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
-    private static final float DEFAULT_ZOOM = 15;
+    public static final int NEW_LOCATION_ACTIVITY_REQUEST_CODE = 942;
     public String photoFileName = "photo.jpg";
-    private boolean locationPermissionGranted;
-    private FusedLocationProviderClient mFusedLocationProviderClient;
 
     File photoFile;
     EditText etPlace;
@@ -90,6 +92,7 @@ public class CreateActivity extends AppCompatActivity implements OnMapReadyCallb
     MapView mapCreate;
     MapFragment mapFragment;
     Location currentLocation;
+    LatLng latLngCurrentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +110,7 @@ public class CreateActivity extends AppCompatActivity implements OnMapReadyCallb
         mapCreate = findViewById(R.id.mapCreate);
 
         currentLocation = getIntent().getParcelableExtra("location");
+        latLngCurrentLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         initMap();
 
         btnCapture.setOnClickListener(new View.OnClickListener() {
@@ -126,7 +130,7 @@ public class CreateActivity extends AppCompatActivity implements OnMapReadyCallb
                 final float ratingPrice = rbPrice.getRating();
                 final List<Integer> chipsSelected = chipGroup.getCheckedChipIds();
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                ParseGeoPoint location = new ParseGeoPoint(40.0, -30.0);
+                ParseGeoPoint location = new ParseGeoPoint(latLngCurrentLocation.latitude, latLngCurrentLocation.longitude);
 
                 Recommendation recommendation = new Recommendation();
 
@@ -187,7 +191,7 @@ public class CreateActivity extends AppCompatActivity implements OnMapReadyCallb
         photoFile = getPhotoFileUri(photoFileName);
 
         // wrap File object into a content provider
-        Uri fileProvider = FileProvider.getUriForFile(CreateActivity.this, "com.codepathx.fileprovider", photoFile);
+        Uri fileProvider = FileProvider.getUriForFile(CreateActivity.this, "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         // As long as the result is not null, it's safe to use the intent.
@@ -214,6 +218,8 @@ public class CreateActivity extends AppCompatActivity implements OnMapReadyCallb
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        // Handling data when images get captured
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 // by this point we have the camera photo on disk
@@ -226,11 +232,17 @@ public class CreateActivity extends AppCompatActivity implements OnMapReadyCallb
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
+
+        // Handling data when a new location is saved
+        if (requestCode == NEW_LOCATION_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            latLngCurrentLocation = (LatLng) data.getExtras().get("latLngLocation");
+            Log.d(TAG, "onActivityResult: the newLocation is: " + latLngCurrentLocation);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngCurrentLocation, 18));
+        }
     }
 
     private void initMap() {
         Log.d(TAG, "initMap: initializing map");
-        Log.d(TAG, "mapCreate: " + mapCreate);
         if (mapCreate != null) {
             Log.d(TAG, "initMap: entered if statement");
             mapCreate.onCreate(null);
@@ -243,16 +255,21 @@ public class CreateActivity extends AppCompatActivity implements OnMapReadyCallb
     public void onMapReady(@NonNull @NotNull GoogleMap googleMap) {
         mMap = googleMap;
         Log.d(TAG, "onMapReady: entered onMapReady");
+
         LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        mMap.addMarker(new MarkerOptions()
+        /*mMap.addMarker(new MarkerOptions()
                 .position(latLng)
-                .title("Your location"));
+                .title("Your location"));*/
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(@NonNull @NotNull LatLng latLng) {
-                Toast.makeText(CreateActivity.this, "Clicked on map!", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onMapClick: clicked on map!");
+
+                Intent intent = new Intent(CreateActivity.this, NewLocationActivity.class);
+                intent.putExtra("currentLocation", currentLocation);
+                startActivityForResult(intent, NEW_LOCATION_ACTIVITY_REQUEST_CODE);
             }
         });
     }

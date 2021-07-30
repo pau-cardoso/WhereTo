@@ -55,7 +55,7 @@ public class DetailRecommendationActivity extends AppCompatActivity {
         rbPrice.setRating(recommendation.getPriceRate());
 
         // Loading the images into de view
-        Glide.with(this).load(recommendation.getUser().getParseFile(KEY_PROFILE_PICTURE).getUrl()).circleCrop().into(ivProfileImage); // TODO Check if doing a User model
+        Glide.with(this).load(recommendation.getUser().getParseFile(KEY_PROFILE_PICTURE).getUrl()).circleCrop().into(ivProfileImage);
         Glide.with(this).load(recommendation.getPicture().getUrl()).into(ivPictureReview);
     }
 }
