@@ -55,11 +55,14 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import org.jetbrains.annotations.NotNull;
+import org.parceler.Parcels;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -74,6 +77,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 251;
     private static final float DEFAULT_ZOOM = 15;
+    private static final int POSTED_RECOMMENDATION_REQUEST_CODE = 737;
 
     // Components
     private GoogleMap mMap;
@@ -147,9 +151,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             public void onClick(View v) {
                 Intent i = new Intent(getContext(), CreateActivity.class);
                 i.putExtra("location", currentLocation);
-                startActivity(i);
+                startActivityForResult(i, POSTED_RECOMMENDATION_REQUEST_CODE);
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        if (requestCode == POSTED_RECOMMENDATION_REQUEST_CODE && resultCode == RESULT_OK) {
+            // Get data from the intent (tweet)
+            Recommendation recommendation = Parcels.unwrap(data.getParcelableExtra("recommendation"));
+            // Update the map with the new recommendation
+            Marker newMarker = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(recommendation.getLocation().getLatitude(), recommendation.getLocation().getLongitude())));
+            newMarker.setTag(recommendation);
+            dropPinEffect(newMarker);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     // As long as map is not null, starts the map

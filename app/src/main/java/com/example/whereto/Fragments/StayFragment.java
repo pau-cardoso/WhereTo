@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.whereto.Models.Recommendation;
 import com.example.whereto.R;
 import com.example.whereto.Adapters.RecommendationAdapter;
+import com.nabilmh.lottieswiperefreshlayout.LottieSwipeRefreshLayout;
 import com.parse.ParseQuery;
 
 import org.jetbrains.annotations.NotNull;
@@ -29,6 +30,8 @@ public class StayFragment extends Fragment {
     RecommendationAdapter adapter;
     List<Recommendation> stayRecommendations;
     RecyclerView rvStay;
+    LottieSwipeRefreshLayout staySwipeContainer;
+
     public StayFragment() {
     }
 
@@ -44,6 +47,7 @@ public class StayFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rvStay = view.findViewById(R.id.rvStay);
+        staySwipeContainer = view.findViewById(R.id.staySwipeContainer);
 
         // initialize the array that will hold posts and create a PostsAdapter
         stayRecommendations = new ArrayList<>();
@@ -54,6 +58,12 @@ public class StayFragment extends Fragment {
         rvStay.setLayoutManager(new LinearLayoutManager(getContext()));
         // query recommendations from Parse
         queryStayRecommendations();
+
+        staySwipeContainer.setOnRefreshListener(() -> {
+            Log.d(TAG, "refreshing");
+            queryStayRecommendations();
+            return null;
+        });
     }
 
     protected void queryStayRecommendations() {
@@ -86,7 +96,7 @@ public class StayFragment extends Fragment {
             adapter.clear();
             adapter.addAll(recommendations);
             adapter.notifyDataSetChanged();
-            //swipeContainer.setRefreshing(false);
+            staySwipeContainer.setRefreshing(false);
         });
     }
 }

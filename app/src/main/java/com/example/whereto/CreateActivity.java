@@ -179,6 +179,9 @@ public class CreateActivity extends AppCompatActivity implements OnMapReadyCallb
                 Log.i(TAG, "Post was successful!");
                 //FloatingActionButton btnAdd = findViewById(R.id.btnAdd);
                 //btnAdd.setVisibility(View.VISIBLE);
+                Intent intent = new Intent();
+                intent.putExtra("recommendation", Parcels.wrap(recommendation));
+                setResult(RESULT_OK, intent); // set result code and bundle data for response
                 finish(); // Closes window for new recommendation and back to main screen
             }
         });

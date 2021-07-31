@@ -11,16 +11,21 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.whereto.Models.Recommendation;
 import com.example.whereto.R;
 import com.example.whereto.Adapters.RecommendationAdapter;
+import com.nabilmh.lottieswiperefreshlayout.LottieSwipeRefreshLayout;
 import com.parse.ParseQuery;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 
 public class EatFragment extends Fragment {
 
@@ -29,6 +34,7 @@ public class EatFragment extends Fragment {
     RecommendationAdapter adapter;
     List<Recommendation> eatRecommendations;
     RecyclerView rvEat;
+    LottieSwipeRefreshLayout eatSwipeContainer;
 
     public EatFragment() {
     }
@@ -45,6 +51,7 @@ public class EatFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rvEat = view.findViewById(R.id.rvEat);
+        eatSwipeContainer = view.findViewById(R.id.eatSwipeContainer);
 
         // initialize the array that will hold posts and create a PostsAdapter
         eatRecommendations = new ArrayList<>();
@@ -55,6 +62,12 @@ public class EatFragment extends Fragment {
         rvEat.setLayoutManager(new LinearLayoutManager(getContext()));
         // query recommendations from Parse
         queryEatRecommendations();
+
+        eatSwipeContainer.setOnRefreshListener(() -> {
+            Log.d(TAG, "refreshing");
+            queryEatRecommendations();
+            return null;
+        });
     }
 
     protected void queryEatRecommendations() {
@@ -83,11 +96,10 @@ public class EatFragment extends Fragment {
 
             // save received posts to list and notify adapter of new data
             eatRecommendations.addAll(recommendations);
-            // TODO refresh
             adapter.clear();
             adapter.addAll(recommendations);
             adapter.notifyDataSetChanged();
-            //swipeContainer.setRefreshing(false);
+            eatSwipeContainer.setRefreshing(false);
         });
     }
 }
