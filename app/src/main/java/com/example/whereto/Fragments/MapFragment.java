@@ -72,7 +72,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private static final String TAG = "MapFragment";
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 251;
     private static final float DEFAULT_ZOOM = 15;
 
     // Components
@@ -81,7 +81,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private View mView;
     private FloatingActionButton btnAdd;
 
-    // Location variables
+    // Variables
     public List<Recommendation> allRecommendations = new ArrayList<>();
     private boolean locationPermissionGranted;
     private FusedLocationProviderClient mFusedLocationProviderClient;
