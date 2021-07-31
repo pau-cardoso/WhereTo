@@ -177,8 +177,8 @@ public class CreateActivity extends AppCompatActivity implements OnMapReadyCallb
                     Toast.makeText(CreateActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
                 }
                 Log.i(TAG, "Post was successful!");
-                FloatingActionButton btnAdd = findViewById(R.id.btnAdd);
-                btnAdd.setVisibility(View.VISIBLE);
+                //FloatingActionButton btnAdd = findViewById(R.id.btnAdd);
+                //btnAdd.setVisibility(View.VISIBLE);
                 finish(); // Closes window for new recommendation and back to main screen
             }
         });
@@ -191,7 +191,7 @@ public class CreateActivity extends AppCompatActivity implements OnMapReadyCallb
         photoFile = getPhotoFileUri(photoFileName);
 
         // wrap File object into a content provider
-        Uri fileProvider = FileProvider.getUriForFile(CreateActivity.this, "com.codepath.fileprovider", photoFile);
+        Uri fileProvider = FileProvider.getUriForFile(CreateActivity.this, "com.codepathx.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         // As long as the result is not null, it's safe to use the intent.
