@@ -166,6 +166,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                     .position(new LatLng(recommendation.getLocation().getLatitude(), recommendation.getLocation().getLongitude())));
             newMarker.setTag(recommendation);
             dropPinEffect(newMarker);
+            moveCamera(new LatLng(recommendation.getLocation().getLatitude(), recommendation.getLocation().getLongitude()), DEFAULT_ZOOM);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

@@ -86,10 +86,7 @@ public class NewLocationActivity extends AppCompatActivity implements OnMapReady
             @Override
             public void onPlaceSelected(@NonNull Place place) {
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId() + ", " + place.getLatLng());
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 10));
-                map.addMarker(new MarkerOptions()
-                        .position(place.getLatLng())
-                        .draggable(true));
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 18));
             }
 
             @Override
