@@ -152,6 +152,18 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/btn_like" />
 
+            <TextView
+                android:id="@+id/tvLikeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/hDivider1"
+                android:layout_alignParentBottom="false"
+                android:layout_marginStart="7dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginBottom="35dp"
+                android:layout_toEndOf="@+id/ibtnLike"
+                tools:text="15" />
+
             <!--
             <ImageButton
                 android:id="@+id/ibtnRetweet2"

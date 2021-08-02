@@ -12,6 +12,7 @@ public class ParseApplication extends Application {
         super.onCreate();
         // Register your parse models
         ParseObject.registerSubclass(Recommendation.class);
+        //ParseObject.registerSubclass(LikeRecommendation.class);
         // set applicationId, and server server based on the values in the back4app settings.
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("VDQgdzBb0873PhvDiDTC64CUmZt4O9cl5yKw1ztL")
