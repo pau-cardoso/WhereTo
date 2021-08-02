@@ -5,15 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewpager2.widget.ViewPager2;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,16 +14,24 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import com.example.whereto.Adapters.RecommendationAdapter;
+import com.example.whereto.Adapters.ViewPagerAdapter;
 import com.example.whereto.CreateActivity;
 import com.example.whereto.Models.Recommendation;
 import com.example.whereto.R;
-import com.example.whereto.Adapters.RecommendationAdapter;
-import com.example.whereto.Adapters.ViewPagerAdapter;
 import com.example.whereto.databinding.ActivityMainBinding;
+import com.gigamole.navigationtabstrip.NavigationTabStrip;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,7 +39,6 @@ import com.google.android.material.tabs.TabLayout;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,10 +61,11 @@ public class RecommendationsFragment extends Fragment {
     RecommendationAdapter adapter;
     List<Recommendation> allRecommendations;
     TabLayout tlTabs;
-    ViewPager2 viewPager;
+    ViewPager viewPager;
     ViewPagerAdapter vpAdapter;
     FloatingActionButton btnAdd;
     View circle;
+    NavigationTabStrip navigationTabStrip;
 
     public RecommendationsFragment() {
         // Required empty public constructor
@@ -85,10 +84,11 @@ public class RecommendationsFragment extends Fragment {
         @NonNull ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
 
         // Find components from view
-        tlTabs = view.findViewById(R.id.tlTabs);
+        //tlTabs = view.findViewById(R.id.tlTabs);
         viewPager = view.findViewById(R.id.viewPager);
         btnAdd = view.findViewById(R.id.btnAdd);
         circle = view.findViewById(R.id.circle);
+        navigationTabStrip = view.findViewById(R.id.navigationTabStrip);
 
         // Getting location permission and starting the map
         getLocationPermission();
@@ -139,33 +139,7 @@ public class RecommendationsFragment extends Fragment {
         });
 
         // Setting the adapter for tab view by category
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        vpAdapter = new ViewPagerAdapter(fm, getLifecycle());
-        viewPager.setAdapter(vpAdapter);
-
-        tlTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                tlTabs.selectTab(tlTabs.getTabAt(position));
-            }
-        });
+        setUI();
     }
 
     /*
@@ -233,5 +207,10 @@ public class RecommendationsFragment extends Fragment {
         }catch (SecurityException e) {
             Log.d(TAG, "getDeviceLocation: SecurityException: " + e.getMessage());
         }
+    }
+
+    private void setUI() {
+        viewPager.setAdapter(new ViewPagerAdapter(getActivity().getSupportFragmentManager()));
+        navigationTabStrip.setViewPager(viewPager);
     }
 }

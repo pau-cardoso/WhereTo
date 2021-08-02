@@ -1,10 +1,14 @@
 package com.example.whereto.Adapters;
 
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Lifecycle;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.whereto.Fragments.EatFragment;
 import com.example.whereto.Fragments.StayFragment;
@@ -13,17 +17,18 @@ import com.example.whereto.Fragments.VisitFragment;
 import org.jetbrains.annotations.NotNull;
 
 // Fragment Adapter for tabs in Recommendations, filtered by the 3 main categories (eat, stay and visit)
-public class ViewPagerAdapter extends FragmentStateAdapter {
+public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    public ViewPagerAdapter(@NonNull @NotNull FragmentManager fragmentManager, @NonNull @NotNull Lifecycle lifecycle) {
-        super(fragmentManager, lifecycle);
+    public static final int count = 3;
+
+    public ViewPagerAdapter(@NonNull @NotNull FragmentManager fm) {
+        super(fm);
     }
 
-    // Creating the fragments depending on the tab
     @NonNull
     @NotNull
     @Override
-    public Fragment createFragment(int position) {
+    public Fragment getItem(int position) {
         switch (position) {
             case 1 :
                 return new StayFragment();
@@ -34,7 +39,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     }
 
     @Override
-    public int getItemCount() {
-        return 3;
+    public int getCount() {
+        return count;
     }
 }

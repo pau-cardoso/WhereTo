@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Fragments.RecommendationsFragment">
 
     <androidx.appcompat.widget.Toolbar
@@ -26,6 +27,56 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <RelativeLayout
+        android:layout_below="@+id/tbRecommendations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:id="@+id/flTabs"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@color/almost_white">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="18dp"
+                android:background="@color/white" />
+
+            <com.gigamole.navigationtabstrip.NavigationTabStrip
+                android:id="@+id/navigationTabStrip"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginStart="30dp"
+                app:nts_active_color="@color/sandy_brown"
+                app:nts_color="@color/sandy_brown"
+                app:nts_corners_radius="3.5dp"
+                app:nts_factor="0.8"
+                app:nts_gravity="bottom"
+                app:nts_inactive_color="@color/almost_black"
+                app:nts_titles="@array/titles"
+                app:nts_type="point"
+                app:nts_weight="7dp" />
+
+        </FrameLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/flTabs"
+            android:layout_marginTop="0dp" />
+
+    </RelativeLayout>
+
+    <!--
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tlTabs"
         android:layout_width="match_parent"
@@ -48,12 +99,7 @@
             android:text="VISIT" />
 
     </com.google.android.material.tabs.TabLayout>
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/tlTabs" />
+    -->
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnAdd"
