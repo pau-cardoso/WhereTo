@@ -5,143 +5,170 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="1dp"
-    android:paddingVertical="12dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    android:paddingVertical="5dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp">
 
-    <ImageView
-        android:id="@+id/ivProfileImage"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/tvNameP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="0dp"
-        android:layout_toEndOf="@+id/ivProfileImage"
-        android:textSize="13sp"
-        android:textStyle="bold"
-        tools:text="~Paulina~" />
-
-    <TextView
-        android:id="@+id/tvUsername"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvNameP"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="3dp"
-        android:layout_toEndOf="@+id/ivProfileImage"
-        android:textColor="#8899a6"
-        android:textSize="12sp"
-        tools:text="\@pau_cardoso" />
-
-    <TextView
-        android:id="@+id/tvPlace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivProfileImage"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="15dp"
-        android:linksClickable="true"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        tools:text="Place's name" />
-
-    <RatingBar
-        android:id="@+id/rbStarsR"
-        style="@style/Widget.AppCompat.RatingBar.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvPlace"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="5dp" />
-
-    <RatingBar
-        android:id="@+id/rbPrice"
-        style="@style/Widget.AppCompat.RatingBar.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvPlace"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_toEndOf="@+id/rbStarsR"
-        android:numStars="3" />
-
-    <TextView
-        android:id="@+id/tvReview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rbStarsR"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="10dp"
-        android:linksClickable="true"
-        android:textSize="15sp"
-        tools:text="This is my review" />
-
-    <TextView
-        android:id="@+id/tvCreatedAt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivPictureReview"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="9dp"
-        android:textColor="#8899a6"
-        android:textSize="12sp"
-        tools:text="3 seconds ago" />
-
-    <ImageView
-        android:id="@+id/ivPictureReview"
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvReview"
-        android:layout_alignParentBottom="false"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="-35dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="-1dp"
-        android:layout_toEndOf="@+id/ivProfileImage"
-        android:visibility="visible"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:layout_margin="8dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/bg_light_gray"
+        app:cardElevation="3dp">
 
-    <!-- TODO add buttons
-    <ImageButton
-        android:id="@+id/ibtnReply"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivMedia"
-        android:layout_alignParentBottom="false"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="0dp"
-        android:layout_toEndOf="@+id/ivProfileImage"
-        android:background="#00FFFFFF"
-        android:tint="@drawable/ibtn_retweet"
-        app:srcCompat="@drawable/ic_vector_reply" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp">
 
-    <ImageButton
-        android:id="@+id/ibtnRetweet2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivMedia"
-        android:layout_alignParentBottom="false"
-        android:layout_marginStart="75dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="0dp"
-        android:layout_toEndOf="@+id/ibtnReply"
-        android:background="#00FFFFFF"
-        android:tint="@drawable/ibtn_retweet"
-        app:srcCompat="@drawable/ic_vector_retweet_stroke" />
-        -->
+            <ImageView
+                android:id="@+id/ivProfileImage"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/tvNameP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="0dp"
+                android:layout_toEndOf="@+id/ivProfileImage"
+                android:fontFamily="@font/muli_bold"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                tools:text="~Paulina~" />
+
+            <TextView
+                android:id="@+id/tvUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvNameP"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="3dp"
+                android:layout_toEndOf="@+id/ivProfileImage"
+                android:fontFamily="@font/muli_light"
+                android:textColor="@color/secondary_color_text"
+                android:textSize="12sp"
+                tools:text="\@pau_cardoso" />
+
+            <TextView
+                android:id="@+id/tvPlace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivProfileImage"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/muli_bold"
+                android:linksClickable="true"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="Place's name" />
+
+            <RatingBar
+                android:id="@+id/rbStarsR"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvPlace"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="5dp" />
+
+            <RatingBar
+                android:id="@+id/rbPrice"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvPlace"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/rbStarsR"
+                android:numStars="3" />
+
+            <TextView
+                android:id="@+id/tvReview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rbStarsR"
+                android:fontFamily="@font/muli"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="10dp"
+                android:linksClickable="true"
+                android:textSize="15sp"
+                tools:text="This is my review" />
+
+            <ImageView
+                android:id="@+id/ivPictureReview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvReview"
+                android:layout_alignParentBottom="false"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="-35dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="-1dp"
+                android:layout_toEndOf="@+id/ivProfileImage"
+                android:visibility="visible"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/tvCreatedAt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivPictureReview"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="9dp"
+                android:fontFamily="@font/muli_light"
+                android:textColor="@color/secondary_color_text"
+                android:textSize="12sp"
+                tools:text="3 seconds ago" />
+
+            <View
+                android:id="@+id/hDivider1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="0dp"
+                android:layout_below="@+id/tvCreatedAt"
+                android:background="?android:attr/listDivider" />
+
+            <ImageButton
+                android:id="@+id/ibtnLike"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_below="@+id/hDivider1"
+                android:layout_alignParentBottom="false"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/btn_like" />
+
+            <!--
+            <ImageButton
+                android:id="@+id/ibtnRetweet2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivMedia"
+                android:layout_alignParentBottom="false"
+                android:layout_marginStart="75dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="0dp"
+                android:layout_toEndOf="@+id/ibtnReply"
+                android:background="#00FFFFFF"
+                android:tint="@drawable/ibtn_retweet"
+                app:srcCompat="@drawable/ic_vector_retweet_stroke" />
+            -->
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 
 </RelativeLayout>
