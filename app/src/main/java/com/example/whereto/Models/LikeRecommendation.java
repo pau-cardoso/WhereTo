@@ -33,8 +33,4 @@ public class LikeRecommendation extends ParseObject {
         put(KEY_RECOMMENDATION, recommendation);
     }
 
-
-    /***************************
-     * Class Functions
-     ***************************/
 }

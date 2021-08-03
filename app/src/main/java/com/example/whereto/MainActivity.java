@@ -1,6 +1,7 @@
 package com.example.whereto;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -42,11 +43,12 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.navigation_recommendations:
                                 fragment = new RecommendationsFragment();
                                 break;
-                            case R.id.navigation_profile:
-                                fragment = new ProfileFragment();
                             case R.id.navigation_popular:
-                            default:
                                 fragment = new PopularFragment();
+                                break;
+                            case R.id.navigation_profile:
+                            default:
+                                fragment = new ProfileFragment();
                                 break;
                         }
                         fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
