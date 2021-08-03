@@ -5,6 +5,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.whereto.Fragments.MapFragment;
+import com.example.whereto.Fragments.PopularFragment;
 import com.example.whereto.Fragments.ProfileFragment;
 import com.example.whereto.Fragments.RecommendationsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -42,8 +43,10 @@ public class MainActivity extends AppCompatActivity {
                                 fragment = new RecommendationsFragment();
                                 break;
                             case R.id.navigation_profile:
-                            default:
                                 fragment = new ProfileFragment();
+                            case R.id.navigation_popular:
+                            default:
+                                fragment = new PopularFragment();
                                 break;
                         }
                         fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();

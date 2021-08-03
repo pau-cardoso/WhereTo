@@ -2,6 +2,7 @@ package com.example.whereto;
 
 import android.app.Application;
 
+import com.example.whereto.Models.LikeRecommendation;
 import com.example.whereto.Models.Recommendation;
 import com.parse.Parse;
 import com.parse.ParseObject;
@@ -12,6 +13,7 @@ public class ParseApplication extends Application {
         super.onCreate();
         // Register your parse models
         ParseObject.registerSubclass(Recommendation.class);
+        ParseObject.registerSubclass(LikeRecommendation.class);
         //ParseObject.registerSubclass(LikeRecommendation.class);
         // set applicationId, and server server based on the values in the back4app settings.
         Parse.initialize(new Parse.Configuration.Builder(this)

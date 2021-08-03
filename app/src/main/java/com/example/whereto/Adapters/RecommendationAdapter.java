@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.whereto.Models.LikeRecommendation;
 import com.example.whereto.Models.Recommendation;
 import com.example.whereto.R;
 import com.parse.ParseException;
@@ -129,15 +130,16 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
             int likeCount = countLikes(recommendation);
             tvLikeCount.setText(String.valueOf(likeCount));
 
-            if (likeCount > 0) {
-                Log.d(TAG, "There are " + likeCount + " likes");
+            if (userLiked(recommendation)) {
                 ibtnLike.setActivated(true);
+            } else {
+                ibtnLike.setActivated(false);
             }
 
             ibtnLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (likeCount > 0) { // If user liked the post before, it dislikes it now
+                    if (userLiked(recommendation)) {
                         ibtnLike.setActivated(false);
                         tvLikeCount.setText(String.valueOf(likeCount-1));
                         try {
@@ -150,51 +152,52 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
                         tvLikeCount.setText(String.valueOf(likeCount+1));
                         createLike(recommendation);
                     }
-
                 }
             });
         }
 
         private void dislike(Recommendation recommendation) throws ParseException {
             Log.i(TAG, "dislike: entered dislike method");
-            // Retrieve the object by id
+            LikeRecommendation likeRecommendation = userLike(recommendation);
+
             ParseQuery<ParseObject> query = ParseQuery.getQuery("LikeRecommendation");
-            query.whereEqualTo(KEY_RECOMMENDATION, ParseObject.createWithoutData("Recommendation", recommendation.getObjectId()));
-            query.whereEqualTo(KEY_USER, recommendation.getUser());
-            // TODO Fix disliking
-            query.findInBackground((objects, e) -> {
-                if(e == null){
-                    for (ParseObject result : objects) {
-                        Log.d("Object found ",result.getObjectId());
-                        result.deleteInBackground(e2 -> {
-                            if(e2==null){
-                                Log.d(TAG, "Delete successful");
-                                //Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
-                            }else{
-                                //Something went wrong while deleting the Object
-                                Log.d(TAG, "Delete unsuccessful: " + e.getMessage());
-                                //Toast.makeText(this, "Error: "+e2.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+            // Retrieve the object by id
+            query.getInBackground(likeRecommendation.getObjectId(), (object, e) -> {
+                if (e == null) {
+                    //Object was fetched
+                    //Deletes the fetched ParseObject from the database
+                    object.deleteInBackground(e2 -> {
+                        if(e2==null){
+                            Log.d(TAG, "Delete successful");
+                            Toast.makeText(context.getApplicationContext(), "Delete Successful", Toast.LENGTH_SHORT).show();
+                            updateLikeCount(recommendation, -1);
+                        }else{
+                            //Something went wrong while deleting the Object
+                            Log.d(TAG, "Delete unsuccessful: " + e.getMessage());
+                            Toast.makeText(context.getApplicationContext(), "Error: "+e2.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }else{
-                    Toast.makeText(context.getApplicationContext(), "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    //Something went wrong
+                    Log.d(TAG, "Error: " + e.getMessage());
+                    Toast.makeText(context.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
 
         private void createLike(Recommendation recommendation) {
-            ParseObject entity = new ParseObject("LikeRecommendation");
 
-            entity.put("recommendationId", ParseObject.createWithoutData("Recommendation", recommendation.getObjectId()));
-            entity.put("userId", ParseUser.getCurrentUser());
+            LikeRecommendation likeRecommendation = new LikeRecommendation();
+            likeRecommendation.setUser(ParseUser.getCurrentUser());
+            likeRecommendation.setRecommendation(recommendation);
 
             // Saves the new object.
             // Notice that the SaveCallback is totally optional!
-            entity.saveInBackground(e -> {
+            likeRecommendation.saveInBackground(e -> {
                 if (e==null){
                     //Save was done
                     Log.d(TAG, "Liked saved");
+                    updateLikeCount(recommendation, 1);
                 }else{
                     //Something went wrong
                     Log.d(TAG, "Something went wrong: " + e.getMessage());
@@ -202,6 +205,25 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
                 }
             });
         }
+    }
+
+    private void updateLikeCount(Recommendation recommendation, int like) {
+        ParseQuery<Recommendation> query = ParseQuery.getQuery("Recommendation");
+
+        // Retrieve the object by id
+        query.getInBackground(recommendation.getObjectId(), (recomm, e) -> {
+            if (e == null) {
+                // Update the fields we want to
+                //object.put("myCustomKey2Name", 999);
+                recomm.setLikeCount(recommendation.getLikeCount() + like);
+                // All other fields will remain the same
+                recomm.saveInBackground();
+            } else {
+                // something went wrong
+                Toast.makeText(context.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "Error updating the like: " + e.getMessage());
+            }
+        });
     }
 
     public int countLikes(Recommendation recommendation) {
@@ -219,5 +241,49 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
             e.printStackTrace();
             return 0;
         }
+    }
+
+    public boolean userLiked(Recommendation recommendation) {
+        // specify what type of data we want to query - Recommendation.class
+        ParseQuery<LikeRecommendation> query = ParseQuery.getQuery("LikeRecommendation");
+        // include data referred by user key
+        query.whereEqualTo(KEY_RECOMMENDATION, ParseObject.createWithoutData("Recommendation", recommendation.getObjectId()));
+        query.whereEqualTo(KEY_USER, ParseUser.getCurrentUser());
+
+        // Fetches data synchronously
+        try {
+            List<LikeRecommendation> results = query.find();
+            if (results.size() > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (ParseException e) {
+            Toast.makeText(context.getApplicationContext(), "Something went wrong. Try again.", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public LikeRecommendation userLike(Recommendation recommendation) {
+        // specify what type of data we want to query - Recommendation.class
+        ParseQuery<LikeRecommendation> query = ParseQuery.getQuery("LikeRecommendation");
+        // include data referred by user key
+        query.whereEqualTo(KEY_RECOMMENDATION, ParseObject.createWithoutData("Recommendation", recommendation.getObjectId()));
+        query.whereEqualTo(KEY_USER, ParseUser.getCurrentUser());
+
+        // Fetches data synchronously
+        try {
+            List<LikeRecommendation> results = query.find();
+            if (results.size() > 0) {
+                return results.get(0);
+            } else {
+                return null;
+            }
+        } catch (ParseException e) {
+            Toast.makeText(context.getApplicationContext(), "Something went wrong. Try again.", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+        return null;
     }
 }

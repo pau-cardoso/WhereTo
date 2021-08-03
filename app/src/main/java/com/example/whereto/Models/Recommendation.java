@@ -26,6 +26,7 @@ public class Recommendation extends ParseObject {
     public static final String KEY_EAT = "foodTag";
     public static final String KEY_STAY = "stayTag";
     public static final String KEY_VISIT = "visitTag";
+    public static final String KEY_LIKE_COUNT = "likeCount";
 
     /***************************
      * Setters and Getters
@@ -85,6 +86,13 @@ public class Recommendation extends ParseObject {
     }
     public void setUser(ParseUser user) {
         put(KEY_USER, user);
+    }
+
+    public int getLikeCount() {
+        return getNumber(KEY_LIKE_COUNT).intValue();
+    }
+    public void setLikeCount(Number likeCount) {
+        put(KEY_LIKE_COUNT, likeCount);
     }
 
     /* Category marks for the recommendations */
