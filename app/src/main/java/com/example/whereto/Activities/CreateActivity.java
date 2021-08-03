@@ -1,27 +1,16 @@
-package com.example.whereto;
+package com.example.whereto.Activities;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -31,25 +20,15 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.example.whereto.Adapters.CustomWindowAdapter;
 import com.example.whereto.Models.Recommendation;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
+import com.example.whereto.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
@@ -60,13 +39,7 @@ import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.util.List;
-import java.util.Map;
-
-import kotlin.jvm.internal.markers.KMappedMarker;
 
 public class CreateActivity extends AppCompatActivity implements OnMapReadyCallback {
 

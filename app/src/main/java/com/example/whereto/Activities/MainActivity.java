@@ -1,4 +1,4 @@
-package com.example.whereto;
+package com.example.whereto.Activities;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +9,7 @@ import com.example.whereto.Fragments.MapFragment;
 import com.example.whereto.Fragments.PopularFragment;
 import com.example.whereto.Fragments.ProfileFragment;
 import com.example.whereto.Fragments.RecommendationsFragment;
+import com.example.whereto.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;

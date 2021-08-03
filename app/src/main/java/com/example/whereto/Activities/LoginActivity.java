@@ -1,4 +1,4 @@
-package com.example.whereto;
+package com.example.whereto.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.whereto.R;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;

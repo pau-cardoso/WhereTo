@@ -1,4 +1,4 @@
-package com.example.whereto;
+package com.example.whereto.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.whereto.Models.Recommendation;
+import com.example.whereto.R;
 
 public class DetailRecommendationActivity extends AppCompatActivity {
 

@@ -23,7 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.whereto.LoginActivity;
+import com.example.whereto.Activities.LoginActivity;
 import com.example.whereto.Models.Recommendation;
 import com.example.whereto.R;
 import com.example.whereto.Adapters.RecommendationAdapter;
@@ -52,7 +52,7 @@ public class ProfileFragment extends Fragment {
     TextView tvName;
     RecyclerView rvProfile;
     RecommendationAdapter adapter;
-    List<Recommendation> eatRecommendations;
+    List<Recommendation> ownRecommendations;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -108,8 +108,8 @@ public class ProfileFragment extends Fragment {
         Glide.with(this).load(currentUser.getParseFile(KEY_PROFILE_PICTURE).getUrl()).circleCrop().into(ivProfilePic);
 
         // initialize the array that will hold posts and create a PostsAdapter
-        eatRecommendations = new ArrayList<>();
-        adapter = new RecommendationAdapter(getContext(), eatRecommendations);
+        ownRecommendations = new ArrayList<>();
+        adapter = new RecommendationAdapter(getContext(), ownRecommendations);
         // set the adapter on the recycler view
         rvProfile.setAdapter(adapter);
         // set the layout manager on the recycler view
@@ -143,7 +143,7 @@ public class ProfileFragment extends Fragment {
             }
 
             // save received posts to list and notify adapter of new data
-            eatRecommendations.addAll(recommendations);
+            ownRecommendations.addAll(recommendations);
             // TODO refresh
             adapter.clear();
             adapter.addAll(recommendations);

@@ -27,7 +27,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WhereTo">
 
-        <activity android:name=".DetailRecommendationActivity"></activity>
+        <activity android:name=".Activities.DetailRecommendationActivity"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -41,7 +41,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".NewLocationActivity"
+            android:name=".Activities.NewLocationActivity"
             android:label="@string/title_activity_new_location" />
 
         <provider
@@ -54,12 +54,12 @@
                 android:resource="@xml/fileprovider" />
         </provider>
 
-        <activity android:name=".SignupActivity" />
-        <activity android:name=".CreateActivity" />
+        <activity android:name=".Activities.SignupActivity" />
+        <activity android:name=".Activities.CreateActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:label="@string/title_activity_main" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".Activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

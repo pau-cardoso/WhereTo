@@ -1,4 +1,4 @@
-package com.example.whereto;
+package com.example.whereto.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.whereto.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

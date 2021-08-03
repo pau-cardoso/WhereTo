@@ -1,6 +1,7 @@
 package com.example.whereto.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.whereto.Fragments.ProfileFragment;
 import com.example.whereto.Models.LikeRecommendation;
 import com.example.whereto.Models.Recommendation;
 import com.example.whereto.R;
@@ -24,6 +26,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.jetbrains.annotations.NotNull;
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -118,7 +121,6 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
             tvReview.setText(recommendation.getReview());
             tvCreatedAt.setText(recommendation.calculateTimeAgo(recommendation.getCreatedAt()));
 
-
             // Rating bars (Star and price)
             rbStars.setRating(recommendation.getRate());
             rbPrice.setRating(recommendation.getPriceRate());
@@ -127,15 +129,18 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
             Glide.with(context).load(recommendation.getUser().getParseFile(KEY_PROFILE_PICTURE).getUrl()).circleCrop().into(ivProfileImage); // TODO Check if doing a User model
             Glide.with(context).load(recommendation.getPicture().getUrl()).into(ivPictureReview);
 
+            // Getting number of likes
             int likeCount = countLikes(recommendation);
             tvLikeCount.setText(String.valueOf(likeCount));
 
+            // Setting like button activated depending on post
             if (userLiked(recommendation)) {
                 ibtnLike.setActivated(true);
             } else {
                 ibtnLike.setActivated(false);
             }
 
+            // When user clicks on like button
             ibtnLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -154,57 +159,69 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
                     }
                 }
             });
-        }
 
-        private void dislike(Recommendation recommendation) throws ParseException {
-            Log.i(TAG, "dislike: entered dislike method");
-            LikeRecommendation likeRecommendation = userLike(recommendation);
-
-            ParseQuery<ParseObject> query = ParseQuery.getQuery("LikeRecommendation");
-            // Retrieve the object by id
-            query.getInBackground(likeRecommendation.getObjectId(), (object, e) -> {
-                if (e == null) {
-                    //Object was fetched
-                    //Deletes the fetched ParseObject from the database
-                    object.deleteInBackground(e2 -> {
-                        if(e2==null){
-                            Log.d(TAG, "Delete successful");
-                            Toast.makeText(context.getApplicationContext(), "Delete Successful", Toast.LENGTH_SHORT).show();
-                            updateLikeCount(recommendation, -1);
-                        }else{
-                            //Something went wrong while deleting the Object
-                            Log.d(TAG, "Delete unsuccessful: " + e.getMessage());
-                            Toast.makeText(context.getApplicationContext(), "Error: "+e2.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }else{
-                    //Something went wrong
-                    Log.d(TAG, "Error: " + e.getMessage());
-                    Toast.makeText(context.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            // When user clicks on profile picture
+            ivProfileImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO
+                    //ParseUser user = recommendation.getUser();
+                    //Intent i = new Intent(context, ProfileFragment.class);
+                    //i.putExtra("user", Parcels.wrap(user)); // serialize the user using parceler, use its short name as a key
+                    //context.startActivity(i); // show the activity
                 }
             });
         }
+    }
 
-        private void createLike(Recommendation recommendation) {
+    private void dislike(Recommendation recommendation) throws ParseException {
+        Log.i(TAG, "dislike: entered dislike method");
+        LikeRecommendation likeRecommendation = userLike(recommendation);
 
-            LikeRecommendation likeRecommendation = new LikeRecommendation();
-            likeRecommendation.setUser(ParseUser.getCurrentUser());
-            likeRecommendation.setRecommendation(recommendation);
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("LikeRecommendation");
+        // Retrieve the object by id
+        query.getInBackground(likeRecommendation.getObjectId(), (object, e) -> {
+            if (e == null) {
+                //Object was fetched
+                //Deletes the fetched ParseObject from the database
+                object.deleteInBackground(e2 -> {
+                    if(e2==null){
+                        Log.d(TAG, "Delete successful");
+                        Toast.makeText(context.getApplicationContext(), "Delete Successful", Toast.LENGTH_SHORT).show();
+                        updateLikeCount(recommendation, -1);
+                    }else{
+                        //Something went wrong while deleting the Object
+                        Log.d(TAG, "Delete unsuccessful: " + e.getMessage());
+                        Toast.makeText(context.getApplicationContext(), "Error: "+e2.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }else{
+                //Something went wrong
+                Log.d(TAG, "Error: " + e.getMessage());
+                Toast.makeText(context.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
-            // Saves the new object.
-            // Notice that the SaveCallback is totally optional!
-            likeRecommendation.saveInBackground(e -> {
-                if (e==null){
-                    //Save was done
-                    Log.d(TAG, "Liked saved");
-                    updateLikeCount(recommendation, 1);
-                }else{
-                    //Something went wrong
-                    Log.d(TAG, "Something went wrong: " + e.getMessage());
-                    Toast.makeText(context.getApplicationContext(), "Something went wrong. Try again later.", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
+    private void createLike(Recommendation recommendation) {
+
+        LikeRecommendation likeRecommendation = new LikeRecommendation();
+        likeRecommendation.setUser(ParseUser.getCurrentUser());
+        likeRecommendation.setRecommendation(recommendation);
+
+        // Saves the new object.
+        // Notice that the SaveCallback is totally optional!
+        likeRecommendation.saveInBackground(e -> {
+            if (e==null){
+                //Save was done
+                Log.d(TAG, "Liked saved");
+                updateLikeCount(recommendation, 1);
+            }else{
+                //Something went wrong
+                Log.d(TAG, "Something went wrong: " + e.getMessage());
+                Toast.makeText(context.getApplicationContext(), "Something went wrong. Try again later.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void updateLikeCount(Recommendation recommendation, int like) {

@@ -19,13 +19,11 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.whereto.Adapters.RecommendationAdapter;
 import com.example.whereto.Adapters.ViewPagerAdapter;
-import com.example.whereto.CreateActivity;
+import com.example.whereto.Activities.CreateActivity;
 import com.example.whereto.Models.Recommendation;
 import com.example.whereto.R;
 import com.example.whereto.databinding.ActivityMainBinding;
