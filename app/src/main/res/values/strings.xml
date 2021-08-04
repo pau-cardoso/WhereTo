@@ -13,4 +13,5 @@
     <string name="new_recommendation">New Recommendation</string>
     <string name="title_activity_new_location">Map</string>
     <string name="popular">Popular</string>
+    <string name="add_new_recommendation">Add new recommendation</string>
 </resources>

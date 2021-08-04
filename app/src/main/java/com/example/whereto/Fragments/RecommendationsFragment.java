@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -64,6 +66,7 @@ public class RecommendationsFragment extends Fragment {
     FloatingActionButton btnAdd;
     View circle;
     NavigationTabStrip navigationTabStrip;
+    Toolbar tbRecommendations;
 
     public RecommendationsFragment() {
         // Required empty public constructor
@@ -87,6 +90,10 @@ public class RecommendationsFragment extends Fragment {
         btnAdd = view.findViewById(R.id.btnAdd);
         circle = view.findViewById(R.id.circle);
         navigationTabStrip = view.findViewById(R.id.navigationTabStrip);
+
+        /* Toolbar setup for Action Bar */
+        tbRecommendations = view.findViewById(R.id.tbRecommendations); // Finds the toolbar component
+        ((AppCompatActivity) getActivity()).setSupportActionBar(tbRecommendations); // Sets the toolbar as action bar
 
         // Getting location permission and starting the map
         getLocationPermission();

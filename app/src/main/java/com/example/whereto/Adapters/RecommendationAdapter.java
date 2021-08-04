@@ -187,7 +187,6 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
                 object.deleteInBackground(e2 -> {
                     if(e2==null){
                         Log.d(TAG, "Delete successful");
-                        Toast.makeText(context.getApplicationContext(), "Delete Successful", Toast.LENGTH_SHORT).show();
                         updateLikeCount(recommendation, -1);
                     }else{
                         //Something went wrong while deleting the Object

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,41 +8,47 @@
     android:background="@color/bg_light_gray"
     tools:context=".Fragments.RecommendationsFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tbRecommendations"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/ablRecommendations"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:background="@color/bg_light_gray"
-        android:layout_marginBottom="7dp"
-        android:layout_marginLeft="10dp"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme">
+        android:backgroundTint="@color/white">
 
-        <TextView
-            android:id="@+id/tvCreate"
-            android:layout_width="wrap_content"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/muli_semibold"
-            android:text="@string/recommendations"
-            android:textColor="@color/primary_color_text"
-            android:textSize="34sp"
-            tools:layout_editor_absoluteX="29dp" />
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
-    </androidx.appcompat.widget.Toolbar>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/tbRecommendations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="7dp"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme"
+                app:layout_collapseMode="pin">
 
-    <RelativeLayout
-        android:layout_below="@+id/tbRecommendations"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+                <TextView
+                    android:id="@+id/tvCreate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/muli_semibold"
+                    android:text="@string/recommendations"
+                    android:textColor="@color/primary_color_text"
+                    android:textSize="34sp"
+                    android:paddingLeft="15dp"
+                    tools:layout_editor_absoluteX="29dp" />
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         <FrameLayout
             android:id="@+id/flTabs"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:background="@color/bg_light_gray">
+            android:layout_height="42dp">
 
             <View
                 android:layout_width="match_parent"
@@ -67,48 +73,58 @@
                 app:nts_gravity="bottom"
                 app:nts_inactive_color="@color/almost_black"
                 app:nts_titles="@array/titles"
-                app:nts_type="point"
+                app:nts_type="line"
                 app:nts_weight="7dp"
-                app:nts_typeface="@font/muli"/>
+                app:nts_typeface="@font/muli"
+                app:layout_scrollFlags="scroll|enterAlways|snap"/>
 
         </FrameLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/flTabs"
-            android:layout_marginTop="0dp" />
+            android:layout_marginTop="0dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="25dp"
+            android:backgroundTint="@color/sandy_brown"
+            android:clickable="true"
+            android:src="@drawable/ic_baseline_add_24"
+            app:backgroundTint="@color/sandy_brown"
+            android:contentDescription="@string/add_new_recommendation" />
+
+        <View
+            android:id="@+id/circle"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_alignStart="@+id/btnAdd"
+            android:layout_alignTop="@+id/btnAdd"
+            android:layout_alignEnd="@+id/btnAdd"
+            android:layout_alignBottom="@+id/btnAdd"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="-0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:background="@drawable/circle"
+            android:visibility="invisible" />
     </RelativeLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="25dp"
-        android:backgroundTint="@color/sandy_brown"
-        android:clickable="true"
-        android:src="@drawable/ic_baseline_add_24"
-        app:backgroundTint="@color/sandy_brown" />
-
-    <View
-        android:id="@+id/circle"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_alignStart="@+id/btnAdd"
-        android:layout_alignTop="@+id/btnAdd"
-        android:layout_alignEnd="@+id/btnAdd"
-        android:layout_alignBottom="@+id/btnAdd"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="-0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp"
-        android:background="@drawable/circle"
-        android:visibility="invisible" />
-
-
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

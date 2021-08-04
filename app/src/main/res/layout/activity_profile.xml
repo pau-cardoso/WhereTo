@@ -24,7 +24,7 @@
                 android:layout_height="100dp"
                 android:layout_below="@+id/tbProfile"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="35dp"
                 android:layout_marginVertical="20dp"
                 tools:src="@tools:sample/avatars" />
 
@@ -32,7 +32,7 @@
                 android:id="@+id/tvNameP"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="140dp"
+                android:layout_marginLeft="155dp"
                 android:layout_marginTop="30dp"
                 android:fontFamily="@font/montserrat"
                 android:textColor="#0E0E0E"

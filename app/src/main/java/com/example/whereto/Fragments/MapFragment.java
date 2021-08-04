@@ -182,7 +182,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     @Override
     public void onMapReady(@NonNull @NotNull GoogleMap googleMap) {
         mMap = googleMap;
-        Toast.makeText(getContext(), "Map is ready", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onMapReady: map is ready");
 
         if (locationPermissionGranted) {

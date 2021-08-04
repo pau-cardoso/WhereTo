@@ -58,7 +58,6 @@ public class ProfileActivity extends AppCompatActivity {
         setSupportActionBar(tbProfile); // Sets the toolbar as action bar
         getSupportActionBar().setDisplayShowTitleEnabled(false); // Disables the showing of the title
         getSupportActionBar().setTitle(user.getUsername()); // Changes action bar's title
-        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         /* Setting the text views and image */
