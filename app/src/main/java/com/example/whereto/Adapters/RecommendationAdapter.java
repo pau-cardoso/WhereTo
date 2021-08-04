@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.whereto.Activities.ProfileActivity;
 import com.example.whereto.Fragments.ProfileFragment;
 import com.example.whereto.Models.LikeRecommendation;
 import com.example.whereto.Models.Recommendation;
@@ -164,11 +165,10 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
             ivProfileImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO
-                    //ParseUser user = recommendation.getUser();
-                    //Intent i = new Intent(context, ProfileFragment.class);
-                    //i.putExtra("user", Parcels.wrap(user)); // serialize the user using parceler, use its short name as a key
-                    //context.startActivity(i); // show the activity
+                    ParseUser user = recommendation.getUser();
+                    Intent i = new Intent(context, ProfileActivity.class);
+                    i.putExtra("user", Parcels.wrap(user)); // serialize the user using parceler, use its short name as a key
+                    context.startActivity(i); // show the activity
                 }
             });
         }
