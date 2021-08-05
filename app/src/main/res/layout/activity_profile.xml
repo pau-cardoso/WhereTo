@@ -18,33 +18,65 @@
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             app:contentScrim="@color/sandy_brown">
 
-            <ImageView
-                android:id="@+id/ivProfilePic"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_below="@+id/tbProfile"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="35dp"
-                android:layout_marginVertical="20dp"
-                tools:src="@tools:sample/avatars" />
-
-            <TextView
-                android:id="@+id/tvNameP"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="155dp"
-                android:layout_marginTop="30dp"
-                android:fontFamily="@font/montserrat"
-                android:textColor="#0E0E0E"
-                android:textSize="25dp"
-                android:textStyle="bold"
-                tools:text="Paulina" />
-            
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/tbUsrProfile"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ivProfilePic"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_alignParentStart="false"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    tools:src="@tools:sample/avatars" />
+
+                <TextView
+                    android:id="@+id/tvNameP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ivProfilePic"
+                    android:layout_marginTop="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/muli"
+                    android:textColor="@color/white"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    tools:text="Paulina" />
+
+                <TextView
+                    android:id="@+id/tvUsernameP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvNameP"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/muli_light"
+                    android:textColor="@color/white"
+                    android:textSize="13dp"
+                    tools:text="\@paulina" />
+
+
+                <Button
+                    android:id="@+id/btnFollow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvUsernameP"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="20dp"
+                    android:elevation="15dp"
+                    android:fontFamily="@font/muli"
+                    android:inputType="textCapSentences"
+                    android:backgroundTint="@drawable/btn_follow"
+                    android:text="@string/follow" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/tbUsrProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin" />
+
+            </RelativeLayout>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
