@@ -7,8 +7,10 @@ import androidx.core.content.FileProvider;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageDecoder;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -39,6 +41,7 @@ import org.jetbrains.annotations.NotNull;
 import org.parceler.Parcels;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class CreateActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -48,6 +51,7 @@ public class CreateActivity extends AppCompatActivity implements OnMapReadyCallb
     private static final int STAY_CHIP = R.id.chipStay;
     private static final int VISIT_CHIP = R.id.chipVisit;
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 253;
+    public static final int PICK_PHOTO_REQUEST_CODE = 1046;
     public static final int NEW_LOCATION_ACTIVITY_REQUEST_CODE = 942;
     public String photoFileName = "photo.jpg";
 
@@ -89,7 +93,8 @@ public class CreateActivity extends AppCompatActivity implements OnMapReadyCallb
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchCamera();
+                //launchCamera();
+                onPickPhoto(v);
             }
         });
 
@@ -177,6 +182,20 @@ public class CreateActivity extends AppCompatActivity implements OnMapReadyCallb
         }
     }
 
+    // Trigger gallery selection for a photo
+    public void onPickPhoto(View view) {
+        // Create intent for picking a photo from the gallery
+        Intent intent = new Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
+        // So as long as the result is not null, it's safe to use the intent.
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            // Bring up gallery to select a photo
+            startActivityForResult(intent, PICK_PHOTO_REQUEST_CODE);
+        }
+    }
+
     private File getPhotoFileUri(String fileName) {
         // Get safe storage directory for photos
         File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
@@ -189,6 +208,24 @@ public class CreateActivity extends AppCompatActivity implements OnMapReadyCallb
         // Return the file target for the photo based on filename
         File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
         return file;
+    }
+
+    public Bitmap loadFromUri(Uri photoUri) {
+        Bitmap image = null;
+        try {
+            // check version of Android on device
+            if(Build.VERSION.SDK_INT > 27){
+                // on newer versions of Android, use the new decodeBitmap method
+                ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(), photoUri);
+                image = ImageDecoder.decodeBitmap(source);
+            } else {
+                // support older versions of Android by using getBitmap
+                image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return image;
     }
 
     @Override
@@ -207,6 +244,16 @@ public class CreateActivity extends AppCompatActivity implements OnMapReadyCallb
             } else { // Result was a failure
                 Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
+        }
+
+        // Handling data when an image is picked
+        if ((data != null) && requestCode == PICK_PHOTO_REQUEST_CODE) {
+            Uri photoUri = data.getData();
+            // Load the image located at photoUri into selectedImage
+            Bitmap selectedImage = loadFromUri(photoUri);
+            // Load the selected image into a preview
+            ImageView ivPreview = (ImageView) findViewById(R.id.ivPicture);
+            ivPreview.setImageBitmap(selectedImage);
         }
 
         // Handling data when a new location is saved
