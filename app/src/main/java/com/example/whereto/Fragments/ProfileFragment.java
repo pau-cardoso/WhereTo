@@ -50,6 +50,7 @@ public class ProfileFragment extends Fragment {
     Toolbar tbProfile;
     ImageView ivProfilePic;
     TextView tvName;
+    TextView tvUsername;
     RecyclerView rvProfile;
     RecommendationAdapter adapter;
     List<Recommendation> ownRecommendations;
@@ -94,17 +95,18 @@ public class ProfileFragment extends Fragment {
         /* Find components from view */
         ivProfilePic = view.findViewById(R.id.ivProfilePic);
         tvName = view.findViewById(R.id.tvNameP);
+        tvUsername = view.findViewById(R.id.tvUsernameP);
         rvProfile = view.findViewById(R.id.rvProfile);
 
         /* Toolbar setup for Action Bar */
         tbProfile = view.findViewById(R.id.tbProfile); // Finds the toolbar component
         ((AppCompatActivity) getActivity()).setSupportActionBar(tbProfile); // Sets the toolbar as action bar
+        tbProfile.setTitle("");
         setHasOptionsMenu(true); // Sets the action bar for options on menu
-        //((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false); // Disables the showing of the title
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(currentUser.getUsername()); // Changes action bar's title
 
         /* Setting the text views and image */
         tvName.setText(currentUser.getString("name"));
+        tvUsername.setText("@" + currentUser.getUsername());
         Glide.with(this).load(currentUser.getParseFile(KEY_PROFILE_PICTURE).getUrl()).circleCrop().into(ivProfilePic);
 
         // initialize the array that will hold posts and create a PostsAdapter

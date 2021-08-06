@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:layout_marginBottom="7dp"
+                android:layout_marginBottom="8dp"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="?attr/actionBarTheme"
                 app:layout_collapseMode="pin">
@@ -48,7 +48,8 @@
         <FrameLayout
             android:id="@+id/flTabs"
             android:layout_width="match_parent"
-            android:layout_height="42dp">
+            android:layout_height="57dp"
+            android:paddingTop="10dp">
 
             <View
                 android:layout_width="match_parent"
@@ -60,7 +61,7 @@
             <com.gigamole.navigationtabstrip.NavigationTabStrip
                 android:id="@+id/navigationTabStrip"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
+                android:layout_height="43dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="30dp"
                 android:layout_marginLeft="30dp"
@@ -93,7 +94,6 @@
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="0dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 

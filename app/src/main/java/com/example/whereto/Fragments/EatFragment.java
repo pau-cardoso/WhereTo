@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.whereto.Models.Recommendation;
 import com.example.whereto.R;
 import com.example.whereto.Adapters.RecommendationAdapter;
@@ -35,6 +37,7 @@ public class EatFragment extends Fragment {
     List<Recommendation> eatRecommendations;
     RecyclerView rvEat;
     LottieSwipeRefreshLayout eatSwipeContainer;
+    RelativeLayout rlLoading;
 
     public EatFragment() {
     }
@@ -52,6 +55,7 @@ public class EatFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         rvEat = view.findViewById(R.id.rvEat);
         eatSwipeContainer = view.findViewById(R.id.eatSwipeContainer);
+        rlLoading = view.findViewById(R.id.rlLoading);
 
         // initialize the array that will hold posts and create a PostsAdapter
         eatRecommendations = new ArrayList<>();
@@ -100,6 +104,7 @@ public class EatFragment extends Fragment {
             adapter.addAll(recommendations);
             adapter.notifyDataSetChanged();
             eatSwipeContainer.setRefreshing(false);
+            rlLoading.setVisibility(View.GONE);
         });
     }
 }

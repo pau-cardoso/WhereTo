@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.whereto.Activities.CreateActivity;
 import com.example.whereto.Activities.DetailRecommendationActivity;
 import com.example.whereto.Models.Recommendation;
@@ -73,6 +75,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private MapView mMapView;
     private View mView;
     private FloatingActionButton btnAdd;
+    private RelativeLayout rlLoadingMap;
 
     // Variables
     public List<Recommendation> allRecommendations = new ArrayList<>();
@@ -101,6 +104,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         //tbMap = view.findViewById(R.id.tbMap);
         btnAdd = view.findViewById(R.id.btnAdd);
         mMapView = mView.findViewById(R.id.map);
+        rlLoadingMap = view.findViewById(R.id.rlLoading);
 
         // Getting location permission and starting the map
         getLocationPermission();
@@ -199,10 +203,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             Marker marker = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(recommendation.getLocation().getLatitude(), recommendation.getLocation().getLongitude())));
             marker.setTag(recommendation);
-            dropPinEffect(marker);
         }
         // Set a listener for marker click.
         mMap.setOnMarkerClickListener(this);
+        rlLoadingMap.setVisibility(View.GONE);
     }
 
     /*

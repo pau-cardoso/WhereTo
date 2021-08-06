@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +32,7 @@ public class StayFragment extends Fragment {
     List<Recommendation> stayRecommendations;
     RecyclerView rvStay;
     LottieSwipeRefreshLayout staySwipeContainer;
+    RelativeLayout rlLoading;
 
     public StayFragment() {
     }
@@ -48,6 +50,7 @@ public class StayFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         rvStay = view.findViewById(R.id.rvStay);
         staySwipeContainer = view.findViewById(R.id.staySwipeContainer);
+        rlLoading = view.findViewById(R.id.rlLoading);
 
         // initialize the array that will hold posts and create a PostsAdapter
         stayRecommendations = new ArrayList<>();
@@ -97,6 +100,7 @@ public class StayFragment extends Fragment {
             adapter.addAll(recommendations);
             adapter.notifyDataSetChanged();
             staySwipeContainer.setRefreshing(false);
+            rlLoading.setVisibility(View.GONE);
         });
     }
 }

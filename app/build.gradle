@@ -59,4 +59,5 @@ dependencies {
     implementation 'com.github.nabil6391:LottieSwipeRefreshLayout:1.0.0' // For an animated SwipeRefresh with Lottie
     implementation 'com.github.devlight.navigationtabstrip:navigationtabstrip:1.0.4' // For navigation tab strip with smooth interaction
     implementation "androidx.cardview:cardview:1.0.0" // For adding card views
+    implementation 'com.airbnb.android:lottie:4.0.0' // Lottie for adding animations
 }

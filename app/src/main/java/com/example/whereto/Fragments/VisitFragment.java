@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +32,7 @@ public class VisitFragment extends Fragment {
     List<Recommendation> visitRecommendations;
     RecyclerView rvVisit;
     LottieSwipeRefreshLayout visitSwipeContainer;
+    RelativeLayout rlLoading;
 
     public VisitFragment() {
     }
@@ -48,6 +50,7 @@ public class VisitFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         rvVisit = view.findViewById(R.id.rvVisit);
         visitSwipeContainer = view.findViewById(R.id.visitSwipeContainer);
+        rlLoading = view.findViewById(R.id.rlLoading);
 
         // initialize the array that will hold posts and create a PostsAdapter
         visitRecommendations = new ArrayList<>();
@@ -97,6 +100,7 @@ public class VisitFragment extends Fragment {
             adapter.addAll(recommendations);
             adapter.notifyDataSetChanged();
             visitSwipeContainer.setRefreshing(false);
+            rlLoading.setVisibility(View.GONE);
         });
     }
 }

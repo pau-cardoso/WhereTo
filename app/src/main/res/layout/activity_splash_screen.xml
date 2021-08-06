@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.SplashScreenActivity">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/splashAnim"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        app:lottie_rawRes="@raw/car_ride_anim"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"/>
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/splashAnim"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/muli_bold"
+        android:text="WhereTo"
+        android:textColor="@color/almost_black"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/tvLoginBtn"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+        android:layout_below="@id/tvTitle"
+        android:background="@drawable/btn_login"
+        android:fontFamily="@font/muli_semibold"
+        android:gravity="center"
+        android:text="Login"
+        android:textAlignment="center"
+        android:textColor="@color/almost_black"
+        android:textSize="16sp"
+        android:elevation="10dp"/>
+
+    <TextView
+        android:id="@+id/tvCreateAccountBtn"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/tvLoginBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/btn_new_account"
+        android:fontFamily="@font/muli_semibold"
+        android:gravity="center"
+        android:text="Create new account"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:elevation="10dp"/>
+
+</RelativeLayout>
