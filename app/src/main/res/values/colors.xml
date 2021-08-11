@@ -12,7 +12,13 @@
     <color name="almost_black">#000001</color>
     <color name="sandy_brown">#f3c06a</color>
     <color name="sandy_brown_dark">#F0B042</color>
+    <color name="sandy_brown_light">#F6D08E</color>
+    <color name="gamboge">#F0B042</color>
     <color name="primary_color_text">#050216</color>
     <color name="secondary_color_text">#8c95a2</color>
     <color name="like_color">#f52f4b</color>
+    <color name="marigold">#EDA01D</color>
+    <color name="deep_champagne">#F6D08E</color>
+    <color name="gray">#8F909F</color>
+    <color name="green">#52b788</color>
 </resources>

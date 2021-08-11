@@ -48,11 +48,12 @@
             android:layout_below="@+id/tbCreate"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:background="@drawable/edit_text_border"
+            android:background="@drawable/edit_text_bg"
             android:ems="10"
             android:hint="Place"
             android:inputType="textPersonName"
             android:paddingStart="10dp"
+            android:fontFamily="@font/muli"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,20 +62,19 @@
         <EditText
             android:id="@+id/etReview"
             android:layout_width="300dp"
-            android:layout_height="50dp"
+            android:layout_height="100dp"
             android:layout_below="@+id/etPlace"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:background="@drawable/edit_text_border"
+            android:background="@drawable/edit_text_bg"
             android:ems="10"
+            android:fontFamily="@font/muli"
             android:hint="Review"
-            android:inputType="textImeMultiLine"
+            android:inputType="textMultiLine"
             android:paddingStart="10dp"
-            android:singleLine="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:singleLine="false"
+            android:lines="8"
+            android:scrollbars="vertical" />
 
         <RelativeLayout
             android:id="@+id/rlMapView"
@@ -105,18 +105,38 @@
             android:id="@+id/rbStars"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rlMapView"
+            android:layout_below="@+id/tvRating"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="44dp"
+            android:layout_marginTop="5dp" />
+
+        <TextView
+            android:id="@+id/tvRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/muli"
+            android:layout_below="@id/rlMapView"
+            android:layout_centerHorizontal="true"
+            android:text="Rating:"
             android:layout_marginTop="20dp" />
+
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/muli"
+            android:layout_below="@id/rbStars"
+            android:layout_centerHorizontal="true"
+            android:text="Price:"
+            android:layout_marginTop="15dp" />
 
         <RatingBar
             android:id="@+id/rbPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rbStars"
+            android:layout_below="@+id/tvPrice"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="50dp"
             android:layout_centerHorizontal="true"
             android:numStars="3" />
@@ -154,20 +174,41 @@
 
         </com.google.android.material.chip.ChipGroup>
 
-        <Button
-            android:id="@+id/btnCapture"
+        <RelativeLayout
+            android:id="@+id/rlPicture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/chipGroup"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:text="Capture" />
+            android:layout_centerHorizontal="true">
+
+            <Button
+                android:id="@+id/btnCapture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:text="Capture"
+                android:textAllCaps="false"/>
+
+            <Button
+                android:id="@+id/btnSelect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/btnCapture"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="Select photo"
+                android:textAllCaps="false"/>
+
+        </RelativeLayout>
+
 
         <ImageView
             android:id="@+id/ivPicture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btnCapture"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:scaleType="center"
+            android:layout_below="@+id/rlPicture"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             tools:srcCompat="@tools:sample/avatars" />
@@ -181,6 +222,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="25dp"
             android:layout_marginBottom="30dp"
+            android:background="@drawable/btn_login"
             android:backgroundTint="#0095f6"
             android:text="Submit" />
 

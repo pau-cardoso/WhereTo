@@ -80,6 +80,14 @@ public class ProfileActivity extends AppCompatActivity {
         tvUsername.setText(user.getUsername());
         Glide.with(this).load(user.getParseFile(KEY_PROFILE_PICTURE).getUrl()).circleCrop().into(ivProfilePic);
 
+        if (userFollows()) {
+            btnFollow.setActivated(true);
+            btnFollow.setText("Unfollow");
+            btnFollow.setTextColor(Color.BLACK);
+        } else {
+            btnFollow.setActivated(false);
+        }
+
         btnFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,6 +166,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void updateFollowingCount(ParseUser currentUser, int count) {
+        currentUser.put(KEY_FOLLOWING, count);
         ParseQuery<ParseUser> query = ParseQuery.getQuery("_User");
 
         // Retrieve the object by id

@@ -20,11 +20,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.whereto.Activities.LoginActivity;
+import com.example.whereto.Activities.SplashScreenActivity;
 import com.example.whereto.Models.Recommendation;
+import com.example.whereto.Models.User;
 import com.example.whereto.R;
 import com.example.whereto.Adapters.RecommendationAdapter;
 import com.parse.ParseQuery;
@@ -44,16 +48,20 @@ public class ProfileFragment extends Fragment {
     
     public static final String TAG = "ProfileFragment";
     private static final String KEY_PROFILE_PICTURE = "profilePicture";
-    protected ParseUser currentUser = ParseUser.getCurrentUser();
-    
+    //protected ParseUser currentUser = ParseUser.getCurrentUser();
+    ParseUser currentUser = ParseUser.getCurrentUser();
+
     Button btnLogout;
     Toolbar tbProfile;
     ImageView ivProfilePic;
     TextView tvName;
     TextView tvUsername;
+    TextView tvNoFollowers;
+    TextView tvNoFollowing;
     RecyclerView rvProfile;
     RecommendationAdapter adapter;
     List<Recommendation> ownRecommendations;
+    RelativeLayout rlLoading;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -74,7 +82,7 @@ public class ProfileFragment extends Fragment {
                 ParseUser.logOut();
                 ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
                 Log.i(TAG, "currentUser: " + currentUser);
-                goLoginActivity();
+                goSplashActivity();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -91,12 +99,16 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "Entered ProfileFragment");
 
         /* Find components from view */
         ivProfilePic = view.findViewById(R.id.ivProfilePic);
         tvName = view.findViewById(R.id.tvNameP);
         tvUsername = view.findViewById(R.id.tvUsernameP);
         rvProfile = view.findViewById(R.id.rvProfile);
+        tvNoFollowers = view.findViewById(R.id.tvNoFollowers);
+        tvNoFollowing = view.findViewById(R.id.tvNoFollowing);
+        rlLoading = view.findViewById(R.id.rlLoading);
 
         /* Toolbar setup for Action Bar */
         tbProfile = view.findViewById(R.id.tbProfile); // Finds the toolbar component
@@ -108,6 +120,10 @@ public class ProfileFragment extends Fragment {
         tvName.setText(currentUser.getString("name"));
         tvUsername.setText("@" + currentUser.getUsername());
         Glide.with(this).load(currentUser.getParseFile(KEY_PROFILE_PICTURE).getUrl()).circleCrop().into(ivProfilePic);
+        tvNoFollowers.setText(String.valueOf(currentUser.getNumber("followers")));
+        Log.d(TAG, "Number of followers: " + currentUser.getNumber("followers"));
+        tvNoFollowing.setText(String.valueOf(ParseUser.getCurrentUser().getNumber("following")));
+        Log.d(TAG, "Number of following: " +  ParseUser.getCurrentUser().getNumber("following"));
 
         // initialize the array that will hold posts and create a PostsAdapter
         ownRecommendations = new ArrayList<>();
@@ -139,11 +155,6 @@ public class ProfileFragment extends Fragment {
                 return;
             }
 
-            // for debugging purposes let's print every post description to logcat
-            for (Recommendation recommendation : recommendations) {
-                Log.i(TAG, "Place: " + recommendation.getPlace() + ", username: " + recommendation.getUser().getUsername());
-            }
-
             // save received posts to list and notify adapter of new data
             ownRecommendations.addAll(recommendations);
             // TODO refresh
@@ -151,13 +162,47 @@ public class ProfileFragment extends Fragment {
             adapter.addAll(recommendations);
             adapter.notifyDataSetChanged();
             //swipeContainer.setRefreshing(false);
+            rlLoading.setVisibility(View.GONE);
         });
     }
 
-    private void goLoginActivity() {
-        Log.i(TAG, "Entered goLoginActivity");
-        Intent i = new Intent(getContext(), LoginActivity.class);
+    private void goSplashActivity() {
+        Log.i(TAG, "Entered goSplashActivity");
+        Intent i = new Intent(getContext(), SplashScreenActivity.class);
         startActivity(i);
         getActivity().finish();
+    }
+
+    private int getFollowers() {
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("username", currentUser.getUsername());
+        query.findInBackground((users, e) -> {
+            if (e == null) {
+                // The query was successful, returns the users that matches
+                // the criteria.
+                for(ParseUser user1 : users) {
+                    Log.d("Followers: ", String.valueOf((user1.getNumber(User.KEY_FOLLOWERS).intValue())));
+                }
+            } else {
+                // Something went wrong.
+                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        return 0;
+    }
+
+    private int getFollowing() {
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        int result;
+        query.getInBackground(currentUser.getObjectId(), ((usr, e) -> {
+            if (e == null) {
+                //Object was successfully retrieved
+                usr.getNumber(User.KEY_FOLLOWING).intValue();
+            } else {
+                // something went wrong
+                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }));
+        return 0;
     }
 }

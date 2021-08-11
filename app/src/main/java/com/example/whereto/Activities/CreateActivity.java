@@ -63,6 +63,7 @@ public class CreateActivity extends AppCompatActivity implements OnMapReadyCallb
     ChipGroup chipGroup;
     Button btnCapture;
     Button btnSubmit;
+    Button btnSelect;
     ImageView ivMap;
 
     GoogleMap mMap;
@@ -84,6 +85,7 @@ public class CreateActivity extends AppCompatActivity implements OnMapReadyCallb
         chipGroup = findViewById(R.id.chipGroup);
         btnSubmit = findViewById(R.id.btnSubmit);
         btnCapture = findViewById(R.id.btnCapture);
+        btnSelect = findViewById(R.id.btnSelect);
         mapCreate = findViewById(R.id.mapCreate);
 
         currentLocation = getIntent().getParcelableExtra("location");
@@ -93,7 +95,13 @@ public class CreateActivity extends AppCompatActivity implements OnMapReadyCallb
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //launchCamera();
+                launchCamera();
+            }
+        });
+
+        btnSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 onPickPhoto(v);
             }
         });
@@ -249,6 +257,9 @@ public class CreateActivity extends AppCompatActivity implements OnMapReadyCallb
         // Handling data when an image is picked
         if ((data != null) && requestCode == PICK_PHOTO_REQUEST_CODE) {
             Uri photoUri = data.getData();
+            File mediaDir = new File(photoUri.getPath(), TAG);
+            // Return the file target for the photo based on filename
+            photoFile = new File(mediaDir.getPath() + File.separator + photoFileName);
             // Load the image located at photoUri into selectedImage
             Bitmap selectedImage = loadFromUri(photoUri);
             // Load the selected image into a preview

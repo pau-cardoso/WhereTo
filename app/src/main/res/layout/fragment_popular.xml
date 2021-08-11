@@ -61,4 +61,6 @@
 
     </com.nabilmh.lottieswiperefreshlayout.LottieSwipeRefreshLayout>
 
+    <include layout="@layout/loading_layout" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

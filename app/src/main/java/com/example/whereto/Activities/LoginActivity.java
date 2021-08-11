@@ -38,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
-        tvSignUp = findViewById(R.id.tvSignUp);
 
         // When user clicks login, verifies login credentials on database
         btnLogin.setOnClickListener(new View.OnClickListener() { // Login button
@@ -48,15 +47,6 @@ public class LoginActivity extends AppCompatActivity {
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                 loginUser(username, password); // Attempting to log in the user
-            }
-        });
-
-        // When clicked sign up text, new  window for the user registration
-        tvSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this, SignupActivity.class);
-                LoginActivity.this.startActivity(i);
             }
         });
     }
@@ -84,6 +74,6 @@ public class LoginActivity extends AppCompatActivity {
         Log.i(TAG, "Entered goMainActivity");
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
-        finish();
+        finishAffinity();
     }
 }

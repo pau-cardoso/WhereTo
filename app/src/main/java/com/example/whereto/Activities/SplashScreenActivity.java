@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.whereto.R;
@@ -29,6 +30,32 @@ public class SplashScreenActivity extends AppCompatActivity {
         if (ParseUser.getCurrentUser() != null) {
             goMainActivity();
         }
+
+        tvLoginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goLoginActivity();
+            }
+        });
+
+        tvCreateAccountBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goSignupActivity();
+            }
+        });
+    }
+
+    private void goSignupActivity() {
+        Log.i(TAG, "Entered goSignupActivity");
+        Intent i = new Intent(SplashScreenActivity.this, SignupActivity.class);
+        SplashScreenActivity.this.startActivity(i);
+    }
+
+    private void goLoginActivity() {
+        Log.i(TAG, "Entered goLoginActivity");
+        Intent i = new Intent(SplashScreenActivity.this, LoginActivity.class);
+        startActivity(i);
     }
 
     private void goMainActivity() {

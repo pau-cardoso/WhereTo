@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.example.whereto.Adapters.RecommendationAdapter;
 import com.example.whereto.Models.Recommendation;
@@ -33,6 +34,7 @@ public class PopularFragment extends Fragment {
     List<Recommendation> popularRecommendations;
     RecyclerView rvPopular;
     LottieSwipeRefreshLayout popularSwipeContainer;
+    RelativeLayout rlLoading;
 
     public PopularFragment() {
     }
@@ -50,6 +52,7 @@ public class PopularFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         rvPopular = view.findViewById(R.id.rvPopular);
         popularSwipeContainer = view.findViewById(R.id.popularSwipeContainer);
+        rlLoading = view.findViewById(R.id.rlLoading);
 
         // initialize the array that will hold posts and create a PostsAdapter
         popularRecommendations = new ArrayList<>();
@@ -96,6 +99,7 @@ public class PopularFragment extends Fragment {
             adapter.addAll(recommendations);
             adapter.notifyDataSetChanged();
             popularSwipeContainer.setRefreshing(false);
+            rlLoading.setVisibility(View.GONE);
         });
     }
 }
