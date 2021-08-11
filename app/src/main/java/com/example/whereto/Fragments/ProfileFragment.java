@@ -27,10 +27,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.whereto.Activities.LoginActivity;
 import com.example.whereto.Activities.SplashScreenActivity;
+import com.example.whereto.Models.Followers;
 import com.example.whereto.Models.Recommendation;
 import com.example.whereto.Models.User;
 import com.example.whereto.R;
 import com.example.whereto.Adapters.RecommendationAdapter;
+import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -48,10 +50,8 @@ public class ProfileFragment extends Fragment {
     
     public static final String TAG = "ProfileFragment";
     private static final String KEY_PROFILE_PICTURE = "profilePicture";
-    //protected ParseUser currentUser = ParseUser.getCurrentUser();
-    ParseUser currentUser = ParseUser.getCurrentUser();
+    protected ParseUser currentUser = ParseUser.getCurrentUser();
 
-    Button btnLogout;
     Toolbar tbProfile;
     ImageView ivProfilePic;
     TextView tvName;
@@ -120,10 +120,8 @@ public class ProfileFragment extends Fragment {
         tvName.setText(currentUser.getString("name"));
         tvUsername.setText("@" + currentUser.getUsername());
         Glide.with(this).load(currentUser.getParseFile(KEY_PROFILE_PICTURE).getUrl()).circleCrop().into(ivProfilePic);
-        tvNoFollowers.setText(String.valueOf(currentUser.getNumber("followers")));
-        Log.d(TAG, "Number of followers: " + currentUser.getNumber("followers"));
-        tvNoFollowing.setText(String.valueOf(ParseUser.getCurrentUser().getNumber("following")));
-        Log.d(TAG, "Number of following: " +  ParseUser.getCurrentUser().getNumber("following"));
+        tvNoFollowers.setText(String.valueOf(getFollowers()));
+        tvNoFollowing.setText(String.valueOf(getFollowing()));
 
         // initialize the array that will hold posts and create a PostsAdapter
         ownRecommendations = new ArrayList<>();
@@ -174,35 +172,30 @@ public class ProfileFragment extends Fragment {
     }
 
     private int getFollowers() {
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("username", currentUser.getUsername());
-        query.findInBackground((users, e) -> {
-            if (e == null) {
-                // The query was successful, returns the users that matches
-                // the criteria.
-                for(ParseUser user1 : users) {
-                    Log.d("Followers: ", String.valueOf((user1.getNumber(User.KEY_FOLLOWERS).intValue())));
-                }
-            } else {
-                // Something went wrong.
-                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        ParseQuery<Followers> query = ParseQuery.getQuery("Followers");
+        query.whereEqualTo(Followers.KEY_FOLLOWING, currentUser);
+
+        //Fetches count synchronously,this will block the main thread
+        try {
+            int count  =  query.count();
+            return count;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return 0;
     }
 
     private int getFollowing() {
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        int result;
-        query.getInBackground(currentUser.getObjectId(), ((usr, e) -> {
-            if (e == null) {
-                //Object was successfully retrieved
-                usr.getNumber(User.KEY_FOLLOWING).intValue();
-            } else {
-                // something went wrong
-                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }));
+        ParseQuery<Followers> query = ParseQuery.getQuery("Followers");
+        query.whereEqualTo(Followers.KEY_FOLLOWER, currentUser);
+
+        //Fetches count synchronously
+        try {
+            int count  =  query.count();
+            return count;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return 0;
     }
 }
