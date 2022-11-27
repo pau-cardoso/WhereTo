@@ -1,4 +1,5 @@
 # WhereTo
+Internship project for Facebook University 2023 where I implemented an Android application in Android Studio.
 ===
 
 ## Table of Contents
